@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">sending</string>
+    <string name="kin_send_kin_launcher_button" >Send Kin</string>
+</resources>
