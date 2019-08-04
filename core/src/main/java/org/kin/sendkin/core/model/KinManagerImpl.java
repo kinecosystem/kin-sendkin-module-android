@@ -1,20 +1,22 @@
 package org.kin.sendkin.core.model;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
-import org.kin.sendkin.core.Consts;
 import org.kin.sendkin.core.callbacks.BalanceCallback;
 import org.kin.sendkin.core.callbacks.SendingKinCallback;
-import org.kin.sendkin.core.exceptions.AccountError;
 import org.kin.sendkin.core.exceptions.BalanceError;
 import org.kin.sendkin.core.exceptions.SendingKinError;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import kin.sdk.Balance;
+import kin.sdk.EventListener;
 import kin.sdk.KinAccount;
+import kin.sdk.ListenerRegistration;
+import kin.sdk.PaymentInfo;
 import kin.sdk.Transaction;
 import kin.sdk.TransactionId;
 import kin.sdk.exception.OperationFailedException;
@@ -30,14 +32,12 @@ public class KinManagerImpl implements KinManager {
     }
 
     @Override
-    public String getPublicAddress() throws AccountError {
-        checkAccountValidity();
+    public String getPublicAddress() {
         return kinAccount.getPublicAddress();
     }
 
     @Override
-    public void getCurrentBalance(final BalanceCallback callback) throws AccountError {
-        checkAccountValidity();
+    public void getCurrentBalance(final BalanceCallback callback) {
         kinAccount.getBalance().run(new ResultCallback<Balance>() {
             @Override
             public void onResult(Balance balance) {
@@ -52,8 +52,7 @@ public class KinManagerImpl implements KinManager {
     }
 
     @Override
-    public int getCurrentBalanceSync() throws BalanceError, AccountError {
-        checkAccountValidity();
+    public int getCurrentBalanceSync() throws BalanceError {
         try {
             return kinAccount.getBalanceSync().value().intValue();
         } catch (OperationFailedException e) {
@@ -62,13 +61,12 @@ public class KinManagerImpl implements KinManager {
     }
 
     @Override
-    public void sendKin(@NonNull String receiverAddress, int amount, @NonNull final SendingKinCallback callback) throws AccountError {
+    public void sendKin(@NonNull String receiverAddress, int amount, @NonNull final SendingKinCallback callback) {
         sendKin(receiverAddress, amount, null, callback);
     }
 
     @Override
-    public void sendKin(@NonNull final String receiverAddress, final int amount, @Nullable String memo, @NonNull final SendingKinCallback callback) throws AccountError {
-        checkAccountValidity();
+    public void sendKin(@NonNull final String receiverAddress, final int amount, @Nullable String memo, @NonNull final SendingKinCallback callback) {
         kinAccount.buildTransaction(receiverAddress, new BigDecimal(amount), FEE, memo).run(new ResultCallback<Transaction>() {
             @Override
             public void onResult(final Transaction transaction) {
@@ -80,28 +78,31 @@ public class KinManagerImpl implements KinManager {
 
                     @Override
                     public void onError(Exception e) {
-                        callback.onSendKinFailed(e.getMessage(), receiverAddress, amount);
+                        if (e.getCause() instanceof IOException) {
+                            callback.onSendKinTimeout(e.getMessage(), receiverAddress, amount);
+                        } else {
+                            callback.onSendKinFailed(e.getMessage(), receiverAddress, amount);
+                        }
                     }
                 });
             }
 
             @Override
             public void onError(Exception e) {
-
+                callback.onSendKinFailed(e.getMessage(), receiverAddress, amount);
             }
         });
     }
 
     //return transaction id
     @Override
-    public String sendKinSync(@NonNull String receiverAddress, int amount) throws SendingKinError, AccountError {
+    public String sendKinSync(@NonNull String receiverAddress, int amount) throws SendingKinError {
         return sendKinSync(receiverAddress, amount, null);
     }
 
     //return transaction id
     @Override
-    public String sendKinSync(@NonNull String receiverAddress, int amount, @Nullable String memo) throws SendingKinError, AccountError {
-        checkAccountValidity();
+    public String sendKinSync(@NonNull String receiverAddress, int amount, @Nullable String memo) throws SendingKinError {
         try {
             final Transaction transaction = kinAccount.buildTransactionSync(receiverAddress, new BigDecimal(amount), FEE, memo);
             return kinAccount.sendTransactionSync(transaction).id();
@@ -113,19 +114,30 @@ public class KinManagerImpl implements KinManager {
 
     @Override
     public Boolean isValidAddress(String address) {
-        return address!= null && address.length() == Consts.ADDRESS_LENGTH && address.toUpperCase().startsWith(Consts.ADDRESS_PREFIX);
-    }
-
-    private boolean isAccountValid() {
-        return kinAccount != null;//Todo check status?
-    }
-
-    private void checkAccountValidity() throws AccountError {
-        if (!isAccountValid()) throw new AccountError("Account must be init");
+        return KinAccountUtils.isValidPublicAddress(address);
     }
 
     @Override
     public void reset() {
         kinAccount = null;
+    }
+
+    private void testListeners(KinAccount kinAccount) {
+        ListenerRegistration listenerPayment = kinAccount
+                .addPaymentListener(new EventListener<PaymentInfo>() {
+                    @Override
+                    public void onEvent(PaymentInfo payment) {
+                        Log.d("####", String
+                                .format("######LISTENERS!!!!payment event, to = %s, from = %s, amount = %s", payment.sourcePublicKey(),
+                                        payment.destinationPublicKey(), payment.amount().toPlainString()));
+                    }
+                });
+
+        ListenerRegistration listenerBalance = kinAccount.addBalanceListener(new EventListener<Balance>() {
+            @Override
+            public void onEvent(Balance balance) {
+                Log.d("example", "####LISTENERS!!!!balance event, new balance is = " + balance.value().toPlainString());
+            }
+        });
     }
 }
