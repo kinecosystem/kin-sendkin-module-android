@@ -3,6 +3,7 @@
     <application>
         <activity
             android:name=".view.SendKinActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 </manifest>

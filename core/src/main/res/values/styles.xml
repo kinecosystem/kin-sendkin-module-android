@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="SendKineNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="BackupAndRestoreToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- Enable clicking icons to trigger a ripple effect -->
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+
+    </style>
+    <style name="SendKinEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/sendkin_text_normal_size</item>
+        <item name="android:fontFamily">@font/sailec</item>
+        <item name="android:background">@drawable/sendkin_edittext_state_list</item>
+        <item name="android:textColor">@drawable/sendkin_edittext_text_colors_state_list</item>
+    </style>
+
+    <style name="SendKinEditText.PublicAddress">
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:digits">1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
+        <item name="android:inputType">textCapCharacters|textNoSuggestions</item>
+    </style>
+
+    <style name="SendKinEditText.Name">
+        <item name="android:digits">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:inputType">textCapSentences|textNoSuggestions</item>
+    </style>
+
+    <style name="SendKinEditText.Amount">
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="SendKinTextBtn" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sendkin_text_normal_size</item>
+        <item name="android:fontFamily">@font/sailec_medium</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SendKinTextBtn.Purple">
+        <item name="android:background">@drawable/sendkin_btn_purple_state_list</item>
+        <item name="android:textColor">@drawable/sendkin_btn_purple_text_colors_state_list</item>
+    </style>
+
+    <style name="SendKinDialogAction">
+        <item name="android:textSize">@dimen/sendkin_text_normal_size</item>
+        <item name="android:fontFamily">@font/sailec_medium</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SendKinDialogAction.Purple">
+        <item name="android:textColor">@color/sendkin_purple</item>
+    </style>
+
+    <style name="SendKinDialogAction.Grey">
+        <item name="android:textColor">@color/sendkin_grey_popup</item>
+    </style>
+
+
+    <style name="SendKinTextBtn.White">
+        <item name="android:textSize">@dimen/sendkin_text_small_size</item>
+        <item name="android:background">@drawable/sendkin_btn_white_state_list</item>
+        <item name="android:textColor">@drawable/sendkin_btn_white_text_colors_state_list</item>
+    </style>
+
+    <style name="SendKinActionBarTitle" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sendkin_text_big_size</item>
+        <item name="android:fontFamily">@font/sailec_medium</item>
+        <item name="android:textColor">@color/sendkin_dark_text</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SendKinTitle" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sendkin_text_normal_size</item>
+        <item name="android:fontFamily">@font/sailec</item>
+        <item name="android:textColor">@color/sendkin_dark_text</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="SendKinTitle.Purple">
+        <item name="android:textColor">@color/sendkin_purple</item>
+    </style>
+
+
+    <style name="SendKinError" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sendkin_text_small_size</item>
+        <item name="android:fontFamily">@font/sailec_medium</item>
+        <item name="android:textColor">@color/sendkin_red</item>
+    </style>
+
+</resources>

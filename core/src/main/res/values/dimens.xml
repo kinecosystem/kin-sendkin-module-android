@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="kin_launcher_button_text_size">14sp</dimen>
-    <dimen name="kin_button_rounder_radius">2dp</dimen>
+    <dimen name="sendkin_text_big_size">20sp</dimen>
+    <dimen name="sendkin_text_normal_size">16sp</dimen>
+    <dimen name="sendkin_text_small_size">14sp</dimen>
+    <dimen name="sendkin_text_smaller_size">12sp</dimen>
+    <dimen name="sendkin_button_rounder_radius">5dp</dimen>
+    <dimen name="sendkin_text_padding_big">18dp</dimen>
+    <dimen name="sendkin_text_padding_small">12dp</dimen>
+
+    <dimen name="sendkin_stroke_size">1dp</dimen>
+    <dimen name="padding_normal">24dp</dimen>
+    <dimen name="padding_small">12dp</dimen>
+
 
 </resources>

@@ -40,12 +40,12 @@ public class KinManagerImpl implements KinManager {
     public void getCurrentBalance(final BalanceCallback callback) {
         kinAccount.getBalance().run(new ResultCallback<Balance>() {
             @Override
-            public void onResult(Balance balance) {
+            public void onResult(final Balance balance) {
                 callback.onBalanceReceived(balance.value().intValue());
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError(final Exception e) {
                 callback.onBalanceError(e.getMessage());
             }
         });

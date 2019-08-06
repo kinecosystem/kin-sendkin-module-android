@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">sending</string>
-    <string name="kin_send_kin_launcher_button" >Send Kin</string>
+    <string name="next">Next</string>
+    <string name="send_kin">Send Kin</string>
+    <string name="recipient_public_address">Recipient public address</string>
+    <string name="the_address_is_invalid">The address is invalid</string>
+    <string name="show_my_public_address">Show my public address</string>
+    <string name="choose_an_address">Choose an address</string>
+    <string name="you_dont_have_enough_kin">You dont have enough Kin</string>
+    <string name="what_is_a_public_address">What is a public address</string>
+    <string name="my_public_address">My public address</string>
 </resources>
