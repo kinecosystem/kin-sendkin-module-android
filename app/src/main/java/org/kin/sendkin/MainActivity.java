@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //GBNY5GQ6WOG5JU4JZEPJ4WZIMYMC5HGPYLSXT7S3GBDJ2S3CM4NPTBNC
+        //GCCLBNMWRUKPCWV4J6H42KAQQ6GSOG6YKRNONAT3QDOGRH3T3EQGSXJR
 
         //GDK57YFZRKNKJTRLE3CZ2GNQCSRC5NPJQWIEMD43M7V6ZIHNARGBIMFI
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         String appId = "abc";
         final KinClient kinClient = new KinClient(this, Environment.TEST, appId, "");
 //        try {
-//            //kinClient.addAccount();
+//            kinClient.addAccount();
 //        } catch (CreateAccountException e) {
 //            e.printStackTrace();
 //        }

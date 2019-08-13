@@ -12,6 +12,7 @@ import org.kin.sendkin.core.model.KinManager;
 import org.mockito.ArgumentCaptor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -66,7 +67,7 @@ public class SendKinPresenterTest {
 
     @Test
     public void onNextStartTransferTest() {
-       when(mockNavigator.shouldStartTransfer()).thenReturn(true);
+        when(mockNavigator.shouldStartTransfer()).thenReturn(true);
         ArgumentCaptor<SendingKinCallback> callbackCaptor = ArgumentCaptor.forClass(SendingKinCallback.class);
 
         presenter.onNext();
@@ -114,7 +115,7 @@ public class SendKinPresenterTest {
         ArgumentCaptor<SendingKinCallback> sendKinCallback = ArgumentCaptor.forClass(SendingKinCallback.class);
 
         verify(mockKinManager, times(1)).sendKin(anyString(), anyInt(), sendKinCallback.capture());
-        sendKinCallback.getValue().onSendKinCompleted(anyString(), validAddress,amount);
+        sendKinCallback.getValue().onSendKinCompleted(anyString(), validAddress, amount);
         verify(mockNavigator, times(1)).updateStep(Navigator.STEP_TRANSFER_COMPLETE);
         ArgumentCaptor<BalanceCallback> callbackCaptor = ArgumentCaptor.forClass(BalanceCallback.class);
         verify(mockKinManager).getCurrentBalance(callbackCaptor.capture());
@@ -140,7 +141,7 @@ public class SendKinPresenterTest {
     }
 
     @Test
-    public void hasEnoughKin(){
+    public void hasEnoughKinTest() {
         presenter.onResume();
         ArgumentCaptor<BalanceCallback> callbackCaptor = ArgumentCaptor.forClass(BalanceCallback.class);
         verify(mockKinManager).getCurrentBalance(callbackCaptor.capture());
@@ -150,5 +151,22 @@ public class SendKinPresenterTest {
         assertTrue(presenter.hasEnoughKin(100));
         assertTrue(!presenter.hasEnoughKin(101));
         assertTrue(!presenter.hasEnoughKin(-1));
+    }
+
+    @Test
+    public void setContactNamTest() {
+        assertFalse(presenter.setContactName(""));
+        //TODO check
+        //assertFalse(presenter.setContactName(" "));
+
+        assertTrue(presenter.setContactName("a"));
+        assertTrue(presenter.setContactName("abcd"));
+        assertTrue(presenter.setContactName("Mr Bin"));
+    }
+
+    @Test
+    public void saveContactTest() {
+        //presenter.saveContact();
+        //TODO
     }
 }

@@ -109,5 +109,6 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
     @Override
     public void updateReceiverAddress(String pasteAddress) {
         inputRecipientAddress.setText(pasteAddress);
+        //TODO scroll to the end
     }
 }

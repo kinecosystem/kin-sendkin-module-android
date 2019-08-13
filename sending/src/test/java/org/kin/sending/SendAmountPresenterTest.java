@@ -33,6 +33,7 @@ public class SendAmountPresenterTest {
     @Test
     public void onSendClickedTestEmpty() {
         presenter.setAmount("");
+        verify(mockView, times(1)).showAmountValidity(true, false);
         presenter.onSendClicked();
         verify(mockView, times(1)).showAmountValidity(false, false);
     }
@@ -40,6 +41,7 @@ public class SendAmountPresenterTest {
     @Test
     public void onSendClickedTestZero() {
         presenter.setAmount("0");
+        verify(mockView, times(1)).showAmountValidity(true, false);
         presenter.onSendClicked();
         verify(mockView, times(1)).showAmountValidity(false, false);
     }
@@ -48,6 +50,7 @@ public class SendAmountPresenterTest {
     public void onSendClickedTest() {
         when(sendKinPresenter.hasEnoughKin(99)).thenReturn(true);
         presenter.setAmount("99");
+        verify(mockView, times(1)).showAmountValidity(true, false);
         presenter.onSendClicked();
         verify(sendKinPresenter, times(1)).onNext();
     }
@@ -55,6 +58,7 @@ public class SendAmountPresenterTest {
     @Test
     public void onSendClickedTestExact() {
         presenter.setAmount("100");
+        verify(mockView, times(1)).showAmountValidity(true, false);
         presenter.onSendClicked();
         verify(sendKinPresenter, times(1)).onNext();
     }
@@ -62,6 +66,7 @@ public class SendAmountPresenterTest {
     @Test
     public void onSendClickedTestNoFee() {
         presenter.setAmount("101");
+        verify(mockView, times(1)).showAmountValidity(true, false);
         presenter.onSendClicked();
         verify(mockView, times(1)).showAmountValidity(false, true);
     }
@@ -70,7 +75,6 @@ public class SendAmountPresenterTest {
     public void onSendClickedTestNoInteger() {
         presenter.setAmount("99999999999999999999999999");
         verify(mockView, times(1)).showAmountValidity(true, false);
-        verify(mockView, times(1)).showAmountValidity(false, true);
         presenter.onSendClicked();
         verify(mockView, times(1)).showAmountValidity(false, true);
     }

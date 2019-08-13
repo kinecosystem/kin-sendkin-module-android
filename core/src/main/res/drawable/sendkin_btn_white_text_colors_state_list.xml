@@ -4,7 +4,7 @@
         android:color="@color/sendkin_grey"
         android:state_enabled="false"/>
     <item
-        android:color="@color/sendkin_white"
+        android:color="@color/sendkin_purple_dark"
         android:state_pressed="true"/>
     <item android:color="@color/sendkin_purple" />
 </selector>

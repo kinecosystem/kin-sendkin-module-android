@@ -9,4 +9,17 @@
     <string name="you_dont_have_enough_kin">You dont have enough Kin</string>
     <string name="what_is_a_public_address">What is a public address</string>
     <string name="my_public_address">My public address</string>
+    <string name="transaction_error_text">We\'re experiencing some network issues. Please try again later.</string>
+    <string name="save">Save</string>
+    <string name="save_contact_text">Give this address a nickname to save it to your address book</string>
+    <string name="send">Send</string>
+    <string name="kin_amount">Kin amount</string>
+    <string name="sending_to">Sending to</string>
+    <string name="confirm_transaction_title">Confirm transaction</string>
+    <string name="sending_kin_title">Sending Kin…</string>
+    <string name="kin_sent_successfully_title">Kin sent successfully</string>
+    <string name="transaction_failed_title">Transaction failed</string>
+    <string name="connection_timedout_title">Connection timed out</string>
+    <string name="transaction_timeout_text">Your transfer may still go through successfully. Check your balance later.</string>
+    <string name="public_address_info">A public address is a unique identifier for an account on the Kin blockchain. When coupled with its private key, it can be used to perform actions on the blockchain account.</string>
 </resources>

@@ -35,4 +35,8 @@ public interface SendKinPresenter extends BasePresenter<SendKinView> {
 
     @VisibleForTesting
     int getBalance();
+
+    boolean setContactName(@NonNull String contactName);
+
+    void saveContact();
 }

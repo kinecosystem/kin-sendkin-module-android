@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/padding_normal"
-    android:paddingTop="@dimen/padding_normal"
-    android:paddingRight="32dp"
-    android:paddingLeft="32dp">
+    android:layout_height="wrap_content">
+
 
     <TextView
         android:id="@+id/title"
         style="@style/SendKinActionBarTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
         android:text="@string/my_public_address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,33 +26,51 @@
         style="@style/SendKinTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
         android:lineSpacingExtra="6sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="address" />
-
-    <TextView
-        android:id="@+id/cancel"
-        style="@style/SendKinDialogAction.Grey"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:text="@android:string/cancel"
-        android:textAllCaps="true"
-        app:layout_constraintBottom_toBottomOf="@+id/copy"
-        app:layout_constraintEnd_toStartOf="@+id/copy" />
+        tools:text="5e73f6dc79873f0fdb0dc44386cf4b6e153ed1ee6eeb2192cc6a48937d9424c8" />
 
     <TextView
         android:id="@+id/copy"
-        style="@style/SendKinDialogAction.Purple"
-        android:layout_width="wrap_content"
+        style="@style/SendKinTextBtn.Purple"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
         android:layout_marginTop="48dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
         android:text="@android:string/copy"
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/publicAddress" />
+
+    <TextView
+        android:id="@+id/cancel"
+        style="@style/SendKinTextBtn.White"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:layout_marginBottom="18dp"
+        android:text="@android:string/cancel"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.359"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/copy" />
+
+
 </android.support.constraint.ConstraintLayout>

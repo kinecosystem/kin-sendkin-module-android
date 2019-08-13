@@ -32,10 +32,13 @@ public class SendAmountPresenterImpl extends BasePresenterImpl<SendAmountView> i
     public void setAmount(@NonNull String amount) {
         getView().showAmountValidity(true, false);
         try {
+            if(amount.isEmpty()){
+                amount = "0";
+            }
             sendKinPresenter.setAmount(Integer.parseInt(amount));
             this.amountStr = amount;
         } catch (NumberFormatException e) {
-            getView().showAmountValidity(false, true);
+            amountStr = "" +Integer.MAX_VALUE;
         }
     }
 

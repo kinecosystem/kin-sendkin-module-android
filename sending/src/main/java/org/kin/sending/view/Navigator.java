@@ -2,7 +2,6 @@ package org.kin.sending.view;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import java.lang.annotation.Retention;
 
@@ -11,7 +10,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 public class Navigator {
     @Retention(SOURCE)
     @IntDef({STEP_INVALID, STEP_RECIPIENT_ADDRESS, STEP_AMOUNT, STEP_CONFIRM, STEP_START_TRANSFER, STEP_TRANSFER_COMPLETE, STEP_TRANSFER_FAILED, STEP_TRANSFER_TIMEOUT})
-    private @interface SendKinSteps {
+    public @interface SendKinSteps {
     }
 
     public static final int STEP_INVALID = 0;
@@ -65,6 +64,9 @@ public class Navigator {
             case STEP_RECIPIENT_ADDRESS:
                 step = STEP_AMOUNT;
                 break;
+            case STEP_TRANSFER_COMPLETE:
+                step = STEP_RECIPIENT_ADDRESS;
+                break;
         }
     }
 
@@ -79,6 +81,15 @@ public class Navigator {
             case STEP_RECIPIENT_ADDRESS:
                 step = STEP_INVALID;
                 break;
+            case STEP_TRANSFER_COMPLETE:
+                step = STEP_AMOUNT;
+                break;
+            case STEP_TRANSFER_FAILED:
+                step = STEP_AMOUNT;
+                break;
+            case STEP_TRANSFER_TIMEOUT:
+                step = STEP_AMOUNT;
+                break;
         }
     }
 
@@ -87,34 +98,34 @@ public class Navigator {
             case STEP_INVALID:
                 view.onClose();
                 break;
+            case STEP_RECIPIENT_ADDRESS:
+                view.showRecipientAddressPage();
+                view.enableBack(false);
+                break;
             case STEP_AMOUNT:
                 view.showAmountPage();
                 view.enableBack(true);
                 break;
             case STEP_CONFIRM:
-                view.showConfirmPage();
-                view.enableBack(true);
-                break;
-            case STEP_RECIPIENT_ADDRESS:
-                view.showRecipientAddressPage();
-                view.enableBack(false);
+                view.showTransactionDialog(STEP_CONFIRM);
                 break;
             case STEP_START_TRANSFER:
-                view.showStartTransferPage();
-                view.enableBack(true);
+                view.showTransactionDialog(STEP_START_TRANSFER);
                 break;
             case STEP_TRANSFER_COMPLETE:
-                view.showTransferCompletePage();
-                view.enableBack(true);
+                view.showTransactionDialog(STEP_TRANSFER_COMPLETE);
+                //view.showTransactionDialog(STEP_TRANSFER_FAILED);
+                //view.showTransactionDialog(STEP_TRANSFER_TIMEOUT);
                 break;
             case STEP_TRANSFER_FAILED:
-                view.showTransferFailedPage();
-                view.enableBack(true);
+                view.showTransactionDialog(STEP_TRANSFER_FAILED);
                 break;
             case STEP_TRANSFER_TIMEOUT:
-                view.showTransferTimeoutPage();
-                view.enableBack(true);
+                view.showTransactionDialog(STEP_TRANSFER_TIMEOUT);
                 break;
+            default:
+                view.onClose();
+
         }
     }
 

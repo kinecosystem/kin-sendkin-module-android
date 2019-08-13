@@ -2,6 +2,7 @@ package org.kin.sending.presenter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import org.kin.sending.view.KinBalanceActionBar;
 import org.kin.sending.view.Navigator;
@@ -13,10 +14,14 @@ import org.kin.sendkin.core.model.KinManager;
 
 public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> implements SendKinPresenter, KinBalanceActionBar.OnClickCallback {
     private static String TAG = SendKinPresenterImpl.class.getSimpleName();
+    private static final int MIN_LENGTH_CONTACT_NAME = 1;
+    private static final int MAX_LENGTH_CONTACT_NAME = 16;
+
     private final KinManager kinManager;
     private final Navigator navigator;
 
     private String recipientAddress = "";
+    private String contactName = "";
     private int amount;
     private int balance = 0;
 
@@ -121,6 +126,23 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
         });
     }
 
+    @Override
+    public boolean setContactName(@NonNull String contactName) {
+        if (isValidContactName(contactName)) {
+            this.contactName = contactName;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void saveContact() {
+        Log.d("###", "### save " + contactName + " address " + recipientAddress);
+    }
+
+    private boolean isValidContactName(@NonNull String contactName) {
+        return !contactName.isEmpty() && contactName.length() >= MIN_LENGTH_CONTACT_NAME && contactName.length() <= MAX_LENGTH_CONTACT_NAME;
+    }
 
     private void requestBalance() {
         kinManager.getCurrentBalance(new BalanceCallback() {

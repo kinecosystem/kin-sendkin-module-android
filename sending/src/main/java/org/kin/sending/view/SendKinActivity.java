@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import org.kin.sending.R;
 import org.kin.sending.presenter.SendKinPresenter;
@@ -98,7 +97,7 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
 
     @Override
     public void showRecipientAddressPage() {
-        RecipientAddressFragment recipientAddressFragment = (RecipientAddressFragment)getSupportFragmentManager()
+        RecipientAddressFragment recipientAddressFragment = (RecipientAddressFragment) getSupportFragmentManager()
                 .findFragmentByTag(RecipientAddressFragment.TAG);
         if (recipientAddressFragment == null) {
             recipientAddressFragment = RecipientAddressFragment.getInstance();
@@ -120,42 +119,20 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
     }
 
     @Override
-    public void showStartTransferPage() {
-        StartSendingDialogFragment startSendingDialogFragment = (StartSendingDialogFragment) getSupportFragmentManager().findFragmentByTag(StartSendingDialogFragment.TAG);
+    public void showTransactionDialog(@Navigator.SendKinSteps int status) {
+        TransactionDialogFragment dialogFragment = (TransactionDialogFragment) getSupportFragmentManager()
+                .findFragmentByTag(TransactionDialogFragment.TAG);
 
-        if (startSendingDialogFragment == null)
-            startSendingDialogFragment = new StartSendingDialogFragment();
-        else {
-            //updaste data if needed to the fragment
+        if (dialogFragment == null) {
+            dialogFragment = TransactionDialogFragment.getInstance(status);
+            dialogFragment.show(getSupportFragmentManager(), TransactionDialogFragment.TAG);
+
+        } else {
+            dialogFragment.setStatus(status);
+            if (!dialogFragment.getDialog().isShowing()) {
+                dialogFragment.show(getSupportFragmentManager(), TransactionDialogFragment.TAG);
+            }
         }
-        startSendingDialogFragment.show(getSupportFragmentManager(), StartSendingDialogFragment.TAG);
-    }
-
-    @Override
-    public void showConfirmPage() {
-        ConfirmDialogFragment confirmDialogFragment = (ConfirmDialogFragment) getSupportFragmentManager().findFragmentByTag(ConfirmDialogFragment.TAG);
-
-        if (confirmDialogFragment == null)
-            confirmDialogFragment = new ConfirmDialogFragment();
-        else {
-            //updaste data if needed to the fragment
-        }
-        confirmDialogFragment.show(getSupportFragmentManager(), ConfirmDialogFragment.TAG);
-    }
-
-    @Override
-    public void showTransferCompletePage() {
-        Toast.makeText(this, "transfer complete!", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showTransferFailedPage() {
-        Toast.makeText(this, "transfer failed!", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showTransferTimeoutPage() {
-        Toast.makeText(this, "transfer timeout!", Toast.LENGTH_LONG).show();
     }
 
     private void replaceFragment(Fragment sendKinFragment, @NonNull String tag) {

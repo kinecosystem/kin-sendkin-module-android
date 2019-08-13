@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/testHeight"
+        android:layout_width="20dp"
+        android:layout_height="415dp"
+        android:background="#ff33"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/dialogConfirm"
+        style="@style/SendKinActionBarTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:gravity="center"
+        android:text="@string/confirm_transaction_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sendingToTitle"
+        style="@style/SendKinTitle.Purple"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:text="@string/sending_to"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogConfirm" />
+
+
+    <TextView
+        android:id="@+id/recipientAddress"
+        style="@style/SendKinTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:lineSpacingExtra="6sp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendingToTitle"
+        tools:text="5e73f6dc79873f0fdb0dc44386cf4b6e153ed1ee6eeb2192cc6a48937d9424c8" />
+
+    <View
+        android:id="@+id/delimTop"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:background="@color/sendkin_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipientAddress" />
+
+
+    <TextView
+        android:id="@+id/amountTitle"
+        style="@style/SendKinTitle.Purple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:text="@string/kin_amount"
+        app:layout_constraintBottom_toTopOf="@+id/delimTop2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delimTop" />
+
+    <TextView
+        android:id="@+id/amount"
+        style="@style/SendKinTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        app:layout_constraintBottom_toTopOf="@+id/delimTop2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delimTop"
+        tools:text="5" />
+
+    <ImageView
+        android:id="@+id/kinIcon"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:tint="@color/sendkin_grey_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/amount"
+        app:layout_constraintEnd_toStartOf="@+id/amount"
+        app:layout_constraintTop_toTopOf="@+id/amount"
+        app:srcCompat="@drawable/ic_kin_balance_icon" />
+
+    <View
+        android:id="@+id/delimTop2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:background="@color/sendkin_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delimTop" />
+
+
+    <TextView
+        android:id="@+id/sendBtn"
+        style="@style/SendKinTextBtn.Purple"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:text="@string/send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delimTop2" />
+
+    <TextView
+        android:id="@+id/cancelSend"
+        style="@style/SendKinTextBtn.White"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:layout_marginBottom="@dimen/alert_padding"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendBtn" />
+
+    <android.support.constraint.Group
+        android:id="@+id/groupConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="kinIcon, amountTitle, sendingToTitle, delimTop2, amount, delimTop, recipientAddress, sendBtn, cancelSend, dialogConfirm"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/dialogSendingTitle"
+        style="@style/SendKinActionBarTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:gravity="center"
+        android:text="@string/send_kin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/walletRight"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_wallet_item" />
+
+    <ImageView
+        android:id="@+id/walletLeft"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogSendingTitle"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_wallet_item" />
+
+    <TextView
+        android:id="@+id/sendingAmount"
+        style="@style/AmountTextDialog.Purple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="@dimen/padding_normal"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toStartOf="@+id/walletRight"
+        app:layout_constraintStart_toEndOf="@+id/walletLeft"
+        app:layout_constraintTop_toBottomOf="@+id/dialogSendingTitle"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:text="56" />
+
+    <ImageView
+        android:id="@+id/sendingKinIcon"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sendingAmount"
+        app:layout_constraintEnd_toStartOf="@+id/sendingAmount"
+        app:layout_constraintTop_toTopOf="@+id/sendingAmount"
+        app:srcCompat="@drawable/ic_kin_balance_icon" />
+    />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/walletRight"
+        app:layout_constraintEnd_toStartOf="@+id/walletRight"
+        app:layout_constraintStart_toEndOf="@+id/walletLeft"
+        app:layout_constraintTop_toTopOf="@+id/walletRight" />
+
+
+    <android.support.constraint.Group
+        android:id="@+id/groupSending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="sendingKinIcon, progressBar,dialogSendingTitle, sendingAmount, walletRight, walletLeft"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/dialogSendCompleteIcon"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_send_icon" />
+
+    <TextView
+        android:id="@+id/dialogSendCompleteTitle"
+        style="@style/SendKinActionBarTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:gravity="center"
+        android:text="@string/kin_sent_successfully_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogSendCompleteIcon" />
+
+
+    <TextView
+        android:id="@+id/successText"
+        style="@style/SendKinTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:gravity="center"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/save_contact_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogSendCompleteTitle" />
+
+
+    <org.kin.sendkin.core.view.SendKinEditText
+        android:id="@+id/contactName"
+        style="@style/SendKinEditText.Name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:hint="Nick Name"
+        android:maxLength="@integer/name_max_len"
+        android:scrollHorizontally="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/successText" />
+
+    <View
+        android:id="@+id/delimSuccess"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="@dimen/alert_padding"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:background="@color/sendkin_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactName" />
+
+    <TextView
+        android:id="@+id/saveBtn"
+        style="@style/SendKinTextBtn.Purple"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delimSuccess" />
+
+    <TextView
+        android:id="@+id/cancelSave"
+        style="@style/SendKinTextBtn.White"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:layout_marginBottom="@dimen/alert_padding"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveBtn" />
+
+    <android.support.constraint.Group
+        android:id="@+id/completeGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="delimSuccess, successText,contactName, saveBtn, cancelSave, dialogSendCompleteTitle, dialogSendCompleteIcon"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/dialogErrorIcon"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_warning_icon" />
+
+    <TextView
+        android:id="@+id/dialogSendErrorTitle"
+        style="@style/SendKinActionBarTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:gravity="center"
+        android:text="Kin sent successfully"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogErrorIcon" />
+
+    <TextView
+        android:id="@+id/errorText"
+        style="@style/SendKinTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:gravity="center"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/transaction_error_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogSendErrorTitle" />
+
+    <TextView
+        android:id="@+id/okErrorBtn"
+        style="@style/SendKinTextBtn.White"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/alert_padding"
+        android:layout_marginLeft="@dimen/alert_padding"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/alert_padding"
+        android:layout_marginRight="@dimen/alert_padding"
+        android:layout_marginBottom="@dimen/alert_padding"
+        android:text="@android:string/ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/errorText" />
+
+    <android.support.constraint.Group
+        android:id="@+id/errorGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="dialogErrorIcon, errorText, okErrorBtn, dialogSendErrorTitle"
+        tools:layout_editor_absoluteX="68dp"
+        tools:layout_editor_absoluteY="40dp"
+        tools:visibility="gone" />
+
+
+</android.support.constraint.ConstraintLayout>
