@@ -7,12 +7,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="BackupAndRestoreToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!-- Enable clicking icons to trigger a ripple effect -->
-        <item name="selectableItemBackground">?android:selectableItemBackground</item>
-        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
-
-    </style>
     <style name="SendKinEditText" parent="@android:style/Widget.EditText">
         <item name="android:textSize">@dimen/sendkin_text_normal_size</item>
         <item name="android:fontFamily">@font/sailec</item>
@@ -61,7 +55,6 @@
         <item name="android:textColor">@color/sendkin_grey_popup</item>
     </style>
 
-
     <style name="SendKinTextBtn.White">
         <item name="android:textSize">@dimen/sendkin_text_small_size</item>
         <item name="android:background">@drawable/sendkin_btn_white_state_list</item>
@@ -85,7 +78,6 @@
     <style name="SendKinTitle.Purple">
         <item name="android:textColor">@color/sendkin_purple</item>
     </style>
-
 
     <style name="SendKinError" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/sendkin_text_small_size</item>

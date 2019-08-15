@@ -24,8 +24,9 @@ import kin.utils.ResultCallback;
 
 public class KinManagerImpl implements KinManager {
 
-    private KinAccount kinAccount;
+    private final KinAccount kinAccount;
     private static final int FEE = 100;
+    private final String MEMO = "memo"; //TODO need to add this
 
     public KinManagerImpl(@NonNull KinAccount kinAccount) {
         this.kinAccount = kinAccount;
@@ -62,7 +63,7 @@ public class KinManagerImpl implements KinManager {
 
     @Override
     public void sendKin(@NonNull String receiverAddress, int amount, @NonNull final SendingKinCallback callback) {
-        sendKin(receiverAddress, amount, null, callback);
+        sendKin(receiverAddress, amount, MEMO, callback);
     }
 
     @Override
@@ -110,16 +111,6 @@ public class KinManagerImpl implements KinManager {
             e.printStackTrace();
             throw new SendingKinError(receiverAddress, amount, e.getMessage());
         }
-    }
-
-    @Override
-    public Boolean isValidAddress(String address) {
-        return KinAccountUtils.isValidPublicAddress(address);
-    }
-
-    @Override
-    public void reset() {
-        kinAccount = null;
     }
 
     private void testListeners(KinAccount kinAccount) {

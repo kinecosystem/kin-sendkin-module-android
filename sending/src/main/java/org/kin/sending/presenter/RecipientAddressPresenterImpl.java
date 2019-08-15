@@ -10,33 +10,13 @@ import org.kin.sending.view.RecipientAddressView;
 import org.kin.sendkin.core.base.BasePresenterImpl;
 import org.kin.sendkin.core.model.KinAccountUtils;
 import org.kin.sendkin.core.model.RecipientContact;
-import org.kin.sendkin.core.view.Utills;
+import org.kin.sendkin.core.view.Utils;
 
 
 public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAddressView> implements RecipientAddressPresenter {
     private String recipientAddress = "";
-    private RecipientContact contact;
-    private SendKinPresenter sendKinPresenter;
+    private final SendKinPresenter sendKinPresenter;
     private ClipboardManager clipboard;
-
-    private TextWatcher addressTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            getView().showAddressValidity(true, false);
-            recipientAddress = s.toString();
-            sendKinPresenter.setRecipientAddress(recipientAddress);
-        }
-    };
 
     public RecipientAddressPresenterImpl(@NonNull SendKinPresenter sendKinPresenter, @NonNull ClipboardManager clipboard) {
         this.clipboard = clipboard;
@@ -68,7 +48,7 @@ public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAd
 
     @Override
     public void onPasteClicked() {
-        String pasteData = Utills.getPastString(clipboard);
+        String pasteData = Utils.getPasteString(clipboard);
         if (pasteData != null) {
             getView().updateReceiverAddress(pasteData);
         }
@@ -76,19 +56,15 @@ public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAd
     }
 
     @Override
-    public TextWatcher getAddressTextWatcher() {
-        return addressTextWatcher;
+    public void setRecipientAddress(@NonNull String address) {
+        getView().showAddressValidity(true, false);
+        recipientAddress = address;
+        sendKinPresenter.setRecipientAddress(recipientAddress);
     }
 
     @Override
     public void onBackClicked() {
         sendKinPresenter.onPrevious();
-    }
-
-    @VisibleForTesting
-    @Override
-    public void setReceiverAddressText(String text) {
-        recipientAddress = text;
     }
 
 }

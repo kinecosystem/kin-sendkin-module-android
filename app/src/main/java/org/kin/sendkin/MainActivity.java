@@ -23,13 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
         //GDK57YFZRKNKJTRLE3CZ2GNQCSRC5NPJQWIEMD43M7V6ZIHNARGBIMFI
 
+        //GB5HR4O3RTH6EHFAMJTL2ZHGP54K2EHUTFNUIS43WTZUOWRHQMGLFNHH
+
         String appId = "abc";
         final KinClient kinClient = new KinClient(this, Environment.TEST, appId, "");
-        try {
-            kinClient.addAccount();
-        } catch (CreateAccountException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            //kinClient.addAccount();
+//        } catch (CreateAccountException e) {
+//            e.printStackTrace();
+//        }
         final KinAccount kinAccount = kinClient.getAccount(0);
         final String publicAddress = kinAccount.getPublicAddress();
         Log.d("MainActivity", " sample app public address " + publicAddress);
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     kinSenderManager.startSendingContactFlow(MainActivity.this);
                 } catch (Exception e) {
+                    Log.e("MainActivity", "startSendingContactFlow error " + e.getMessage());
                 }
             }
         });

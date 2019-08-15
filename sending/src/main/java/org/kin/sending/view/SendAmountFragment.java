@@ -3,6 +3,8 @@ package org.kin.sending.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,8 @@ import org.kin.sendkin.core.view.SendKinEditText;
 public class SendAmountFragment extends Fragment implements SendAmountView {
 
     public static final String TAG = SendAmountFragment.class.getSimpleName();
-    public static SendAmountFragment getInstance(){
+
+    public static SendAmountFragment getInstance() {
         SendAmountFragment fragment = new SendAmountFragment();
         return fragment;
     }
@@ -31,7 +34,7 @@ public class SendAmountFragment extends Fragment implements SendAmountView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if(!(getActivity() instanceof SendKinView)){
+        if (!(getActivity() instanceof SendKinView)) {
             getActivity().finish();
         }
         View root = inflater.inflate(R.layout.send_amount_page, container, false);
@@ -50,9 +53,24 @@ public class SendAmountFragment extends Fragment implements SendAmountView {
             }
         });
         inputAmount = root.findViewById(R.id.amount);
-        inputAmount.addTextChangedListener(presenter.getAmountTextWatcher());
+        inputAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                presenter.setAmount(s.toString());
+            }
+        });
         errorInfo = root.findViewById(R.id.errorInfo);
-        ((TextView)root.findViewById(R.id.recipientAddressShorten)).setText(recipientAddress);
+        ((TextView) root.findViewById(R.id.recipientAddressShorten)).setText(recipientAddress);
     }
 
     @Override

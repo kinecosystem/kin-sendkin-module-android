@@ -13,13 +13,12 @@ import org.kin.sendkin.core.model.KinManager;
 
 public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> implements SendKinPresenter, KinBalanceActionBar.OnClickCallback {
     private static String TAG = SendKinPresenterImpl.class.getSimpleName();
-    private KinManager kinManager;
-    private Navigator navigator;
+    private final KinManager kinManager;
+    private final Navigator navigator;
 
     private String recipientAddress = "";
     private int amount;
     private int balance = 0;
-    private String memo = "MEMO"; //TODO update memo
 
     public SendKinPresenterImpl(@NonNull KinManager kinManager, Navigator navigator) {
         this.kinManager = kinManager;
@@ -49,7 +48,7 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
     @Override
     public void onAttach(SendKinView view) {
         super.onAttach(view);
-        navigator.updateStep(Navigator.STEP_RECIPIENT_ADDRESS);
+        navigator.onNext();
     }
 
     @Override
@@ -81,6 +80,11 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
     }
 
     @Override
+    public boolean hasEnoughKin(int spendAmount) {
+        return spendAmount >= 0 && spendAmount <= balance;
+    }
+
+    @Override
     public int getAmount() {
         return amount;
     }
@@ -98,7 +102,7 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
 
     @Override
     public void startTransaction() {
-        kinManager.sendKin(recipientAddress, amount, memo, new SendingKinCallback() {
+        kinManager.sendKin(recipientAddress, amount, new SendingKinCallback() {
             @Override
             public void onSendKinCompleted(String transactionId, String receiverAddress, int amount) {
                 navigator.updateStep(Navigator.STEP_TRANSFER_COMPLETE);

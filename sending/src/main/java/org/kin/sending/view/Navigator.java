@@ -24,7 +24,7 @@ public class Navigator {
     public static final int STEP_TRANSFER_TIMEOUT = 70;
 
     private @Navigator.SendKinSteps
-    int step = STEP_RECIPIENT_ADDRESS;
+    int step = STEP_INVALID;
     private SendKinView view;
 
 
@@ -53,6 +53,9 @@ public class Navigator {
 
     private void updateNextStep() {
         switch (step) {
+            case STEP_INVALID:
+                step = STEP_RECIPIENT_ADDRESS;
+                break;
             case STEP_AMOUNT:
                 step = STEP_CONFIRM;
                 break;

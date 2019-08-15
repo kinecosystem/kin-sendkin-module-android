@@ -100,13 +100,9 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
     public void showRecipientAddressPage() {
         RecipientAddressFragment recipientAddressFragment = (RecipientAddressFragment)getSupportFragmentManager()
                 .findFragmentByTag(RecipientAddressFragment.TAG);
-
         if (recipientAddressFragment == null) {
             recipientAddressFragment = RecipientAddressFragment.getInstance();
-        } else {
-            //updaste data if needed to the fragment
         }
-
         replaceFragment(recipientAddressFragment, RecipientAddressFragment.TAG);
     }
 

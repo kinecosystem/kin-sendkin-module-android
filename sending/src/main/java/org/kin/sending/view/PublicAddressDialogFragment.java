@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.kin.sending.R;
-import org.kin.sendkin.core.view.Utills;
+import org.kin.sendkin.core.view.Utils;
 
 public class PublicAddressDialogFragment extends DialogFragment {
 
@@ -34,16 +34,13 @@ public class PublicAddressDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        if (!(getActivity() instanceof SendKinView)) {
-//            getActivity().finish();
-//        }
         final String publicAddress = getArguments().getString(PUBLIC_ADDRESS_KEY, "");
         final View customLayout = inflater.inflate(R.layout.my_public_address_dialog, null);
         ((TextView) customLayout.findViewById(R.id.publicAddress)).setText(publicAddress);
         customLayout.findViewById(R.id.copy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utills.saveTo((ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE), publicAddress);
+                Utils.saveTo((ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE), publicAddress);
                 Toast.makeText(getContext(), "Address copied", Toast.LENGTH_LONG).show();
                 dismiss();
             }

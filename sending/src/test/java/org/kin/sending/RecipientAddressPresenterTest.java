@@ -1,5 +1,6 @@
 package org.kin.sending;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kin.sending.presenter.RecipientAddressPresenter;
 import org.kin.sending.presenter.RecipientAddressPresenterImpl;
@@ -11,40 +12,34 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class RecipientAddressPresenterTest {
-    SendKinPresenter sendKinPresenter = mock(SendKinPresenter.class);
-    RecipientAddressView mockView = mock(RecipientAddressView.class);
-    String validAddress = "GBNY5GQ6WOG5JU4JZEPJ4WZIMYMC5HGPYLSXT7S3GBDJ2S3CM4NPTBNC";
-    String nonValidAddress = "AGBNY5GQ6WOG5JU4JZEP";
-    String emptyAddress = "";
+    SendKinPresenter sendKinPresenter;
+    RecipientAddressView mockView;
+    final String validAddress = "GBNY5GQ6WOG5JU4JZEPJ4WZIMYMC5HGPYLSXT7S3GBDJ2S3CM4NPTBNC";
+    final String nonValidAddress = "AGBNY5GQ6WOG5JU4JZEP";
+    final String emptyAddress = "";
 
+    RecipientAddressPresenter presenter;
 
-    RecipientAddressPresenter presenter = new RecipientAddressPresenterImpl(sendKinPresenter, null);
+    @Before
+    public void initMocks() {
+        sendKinPresenter = mock(SendKinPresenter.class);
+        mockView = mock(RecipientAddressView.class);
+        presenter = new RecipientAddressPresenterImpl(sendKinPresenter, null);
+    }
 
     @Test
     public void onNextClickedTest() {
         presenter.onAttach(mockView);
-
-        presenter.setReceiverAddressText(emptyAddress);
+        presenter.setRecipientAddress(emptyAddress);
         presenter.onNextClicked();
         verify(mockView, times(1)).showAddressValidity(false, false);
-
-        presenter.setReceiverAddressText(nonValidAddress);
+        presenter.setRecipientAddress(nonValidAddress);
         presenter.onNextClicked();
         verify(mockView, times(1)).showAddressValidity(false, true);
-
-        presenter.setReceiverAddressText(validAddress);
+        presenter.setRecipientAddress(validAddress);
         presenter.onNextClicked();
         verify(sendKinPresenter, times(1)).onNext();
     }
-
-    @Test
-    public void onPasteClickedTest() {
-//        presenter.setView(mockView);
-//
-//        presenter.onPasteClicked();
-        //TODO need to mock clipboard
-    }
-
 
     @Test
     public void onShowPublicAddressClickedTest() {

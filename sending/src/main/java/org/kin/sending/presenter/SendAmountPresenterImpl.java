@@ -1,41 +1,15 @@
 package org.kin.sending.presenter;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.text.Editable;
-import android.text.TextWatcher;
 
 import org.kin.sending.view.SendAmountView;
-import org.kin.sending.view.SendKinView;
 import org.kin.sendkin.core.base.BasePresenterImpl;
 
 
 public class SendAmountPresenterImpl extends BasePresenterImpl<SendAmountView> implements SendAmountPresenter {
+    private static final String TAG = SendKinPresenterImpl.class.getSimpleName();
     private String amountStr = "";
-    private SendKinPresenter sendKinPresenter;
-
-    private TextWatcher amountTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            getView().showAmountValidity(true, false);
-            amountStr = s.toString();
-            try {
-                sendKinPresenter.setAmount(Integer.parseInt(amountStr));
-            }catch (NumberFormatException e){
-                //not integer format
-            }
-        }
-    };
+    private final SendKinPresenter sendKinPresenter;
 
     public SendAmountPresenterImpl(@NonNull SendKinPresenter sendKinPresenter) {
         this.sendKinPresenter = sendKinPresenter;
@@ -44,7 +18,7 @@ public class SendAmountPresenterImpl extends BasePresenterImpl<SendAmountView> i
     @Override
     public void onSendClicked() {
         if (!amountStr.isEmpty() && !amountStr.startsWith("0")) {
-            if (isValidAmount()) {
+            if (hasEnoughKin()) {
                 sendKinPresenter.onNext();
             } else {
                 getView().showAmountValidity(false, true);
@@ -55,8 +29,14 @@ public class SendAmountPresenterImpl extends BasePresenterImpl<SendAmountView> i
     }
 
     @Override
-    public TextWatcher getAmountTextWatcher() {
-        return amountTextWatcher;
+    public void setAmount(@NonNull String amount) {
+        getView().showAmountValidity(true, false);
+        try {
+            sendKinPresenter.setAmount(Integer.parseInt(amount));
+            this.amountStr = amount;
+        } catch (NumberFormatException e) {
+            getView().showAmountValidity(false, true);
+        }
     }
 
     @Override
@@ -64,20 +44,14 @@ public class SendAmountPresenterImpl extends BasePresenterImpl<SendAmountView> i
         sendKinPresenter.onPrevious();
     }
 
-    private boolean isValidAmount() {
+    private boolean hasEnoughKin() {
         try {
             final int amount = Integer.parseInt(amountStr);
-            return amount <= sendKinPresenter.getCurrentBalance();
+            return sendKinPresenter.hasEnoughKin(amount);
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
 
-
-    @VisibleForTesting
-    @Override
-    public void setAmount(String amount) {
-        amountStr = amount;
-    }
 }

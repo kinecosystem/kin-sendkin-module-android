@@ -4,9 +4,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.support.annotation.NonNull;
 
-public class Utills {
+public class Utils {
 
-    public static String getPastString(@NonNull ClipboardManager clipboard){
+    public static String getPasteString(@NonNull ClipboardManager clipboard){
         ClipData pData = clipboard.getPrimaryClip();
         if(pData != null) {
             ClipData.Item item = pData.getItemAt(0);

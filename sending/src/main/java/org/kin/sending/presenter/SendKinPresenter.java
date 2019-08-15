@@ -31,6 +31,8 @@ public interface SendKinPresenter extends BasePresenter<SendKinView> {
 
     void onShowWhatIsPublicAddressDialogClicked();
 
+    boolean hasEnoughKin(int spendAmount);
+
     @VisibleForTesting
     int getBalance();
 }
