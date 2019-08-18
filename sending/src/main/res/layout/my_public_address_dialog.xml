@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/padding_normal"
+    android:paddingTop="@dimen/padding_normal"
+    android:paddingRight="32dp"
+    android:paddingLeft="32dp">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/SendKinActionBarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_public_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/publicAddress"
+        style="@style/SendKinTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:lineSpacingExtra="6sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="address" />
+
+    <TextView
+        android:id="@+id/cancel"
+        style="@style/SendKinDialogAction.Grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:text="@android:string/cancel"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="@+id/copy"
+        app:layout_constraintEnd_toStartOf="@+id/copy" />
+
+    <TextView
+        android:id="@+id/copy"
+        style="@style/SendKinDialogAction.Purple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@android:string/copy"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/publicAddress" />
+</android.support.constraint.ConstraintLayout>

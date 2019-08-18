@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import org.kin.sendkin.core.Consts;
 
+import kin.base.KeyPair;
 import kin.sdk.Environment;
 import kin.sdk.KinAccount;
 import kin.sdk.KinClient;
@@ -21,8 +22,16 @@ public class KinAccountUtils {
     private static final String STORE_KEY_EXTRA = "storeKeyExtra";
     private static final String PUBLIC_ADDRESS_EXTRA = "publicAddressExtra";
 
-    public static boolean isValidPublicAddress(String address) {
-        return address != null && address.length() == Consts.ADDRESS_LENGTH && address.toUpperCase().startsWith(Consts.ADDRESS_PREFIX);
+    public static boolean isValidPublicAddress(@NonNull String address) {
+        if (address.length() == Consts.ADDRESS_LENGTH) {
+            try {
+                KeyPair.fromAccountId(address);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 
     public static Intent saveKinAccountData(@NonNull Intent intent, @NonNull KinClient kinClient, @NonNull String publicAddress) {
@@ -36,8 +45,8 @@ public class KinAccountUtils {
 
     @Nullable
     public static KinAccount loadAccountClientData(@NonNull Context context, @NonNull Intent intent) {
-        if(!intent.hasExtra(NETWORK_PASSPHRASE_EXTRA) || !intent.hasExtra(NETWORK_PASSPHRASE_EXTRA)
-                || !intent.hasExtra(APP_ID_EXTRA) || !intent.hasExtra(PUBLIC_ADDRESS_EXTRA)){
+        if (!intent.hasExtra(NETWORK_PASSPHRASE_EXTRA) || !intent.hasExtra(NETWORK_PASSPHRASE_EXTRA)
+                || !intent.hasExtra(APP_ID_EXTRA) || !intent.hasExtra(PUBLIC_ADDRESS_EXTRA)) {
             return null;
         }
         final String networkUrl = intent.getStringExtra(NETWORK_URL_EXTRA);

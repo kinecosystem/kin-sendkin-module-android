@@ -23,7 +23,4 @@ public interface KinManager {
     //return transaction id
     String sendKinSync(@NonNull String receiverAddress, int amount, @Nullable String memo) throws SendingKinError;
 
-    Boolean isValidAddress(String address);
-
-    void reset();
 }

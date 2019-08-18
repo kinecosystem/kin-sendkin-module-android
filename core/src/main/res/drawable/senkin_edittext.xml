@@ -1,0 +1,12 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+    <stroke android:color="@color/sendkin_black_border" android:width="@dimen/sendkin_stroke_size"/>
+    <solid android:color="@color/sendkin_white" />
+
+    <corners
+        android:radius="@dimen/sendkin_button_rounder_radius" />
+    <padding android:top="@dimen/sendkin_text_padding_small"
+        android:bottom="@dimen/sendkin_text_padding_small"
+        android:left="@dimen/sendkin_text_padding_big"
+        android:right="@dimen/sendkin_text_padding_big"/>
+</shape>

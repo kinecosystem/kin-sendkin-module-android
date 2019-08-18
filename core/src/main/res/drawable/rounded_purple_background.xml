@@ -1,7 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
-    <solid android:color="@color/kin_purple" />
-
-    <corners
-        android:radius="@dimen/kin_button_rounder_radius" />
-</shape>

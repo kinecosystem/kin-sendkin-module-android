@@ -1,31 +1,28 @@
 package org.kin.sending.view;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.kin.sending.R;
+import org.kin.sending.presenter.SendKinPresenter;
 import org.kin.sending.presenter.SendKinPresenterImpl;
 import org.kin.sendkin.core.model.KinAccountUtils;
+import org.kin.sendkin.core.model.KinManagerImpl;
 
 import kin.sdk.KinAccount;
 import kin.sdk.KinClient;
 
 public class SendKinActivity extends AppCompatActivity implements SendKinView {
     private SendKinPresenterImpl presenter;
-
+    private KinBalanceActionBar actionBar;
 
     public static Intent getIntent(@NonNull Context context, @NonNull KinClient kinClient, @NonNull String publicAddress) {
         Intent intent = new Intent(context, SendKinActivity.class);
@@ -43,47 +40,37 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
         setContentView(getContentLayout());
         final KinAccount kinAccount = KinAccountUtils.loadAccountClientData(this, getIntent());
         if (kinAccount != null) {
-            presenter = new SendKinPresenterImpl(kinAccount);
-            presenter.onAttach(this);
+            presenter = new SendKinPresenterImpl(new KinManagerImpl(kinAccount), new Navigator(this));
             initViews();
+            presenter.onAttach(this);
         }
+    }
+
+    @NonNull
+    @Override
+    public SendKinPresenter getSendKinPresenter() {
+        return presenter;
     }
 
     @Override
     public void updateBalance(int balance) {
-        ((TextView) findViewById(R.id.balance)).setText("balance:" + balance);
+        actionBar.updateBalance(String.valueOf(balance));
     }
 
     @Override
-    public void showPublicAddressPopup(@NonNull final String publicAddress) {
-        //will be move to another alert manager
-        new AlertDialog.Builder(this)
-                .setTitle("Public Address")
-                .setMessage("your address " + publicAddress)
-
-                // Specifying a listener allows you to take an action before dismissing the dialog.
-                // The dialog is automatically dismissed when a dialog button is clicked.
-                .setPositiveButton(android.R.string.copy, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("public address", publicAddress);
-                        clipboard.setPrimaryClip(clip);
-                        Toast.makeText(SendKinActivity.this, "Public address coppied", Toast.LENGTH_LONG).show();
-                        // Continue with delete operation
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
+    public void onBackPressed() {
+        //super.onBackPressed();
+        presenter.onBackClicked();
     }
 
     @Override
-    public void updateStatus(String status) {
-        ((TextView)findViewById(R.id.status)).setText(status);
+    public void onClose() {
+        finish();
     }
 
     @Override
-    public void onRecipientAddressNotValid() {
-        updateStatus("address not kin address");
+    public void enableBack(boolean enable) {
+        actionBar.enableBack(enable);
     }
 
     @Override
@@ -93,20 +80,92 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
     }
 
     private void initViews() {
-        findViewById(R.id.address).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.onShowPublicAddressClicked();
-            }
-        });
+        actionBar = findViewById(R.id.actionBar);
+        actionBar.addClickListner(presenter);
+    }
 
-        findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onSendClicked();
-            }
-        });
+    @Override
+    public void showPublicAddressDialog(@NonNull final String publicAddress) {
+        PublicAddressDialogFragment dialogFragment = PublicAddressDialogFragment.getIntance(publicAddress);
+        dialogFragment.show(getSupportFragmentManager(), PublicAddressDialogFragment.TAG);
+    }
 
-        ((EditText)findViewById(R.id.to)).addTextChangedListener(presenter.getAddressTextWatcher());
+    @Override
+    public void showWhatIsPublicAddressDialog() {
+        PublicAddressInfoDialogFragment dialogFragment = PublicAddressInfoDialogFragment.getIntance();
+        dialogFragment.show(getSupportFragmentManager(), PublicAddressInfoDialogFragment.TAG);
+    }
+
+    @Override
+    public void showRecipientAddressPage() {
+        RecipientAddressFragment recipientAddressFragment = (RecipientAddressFragment)getSupportFragmentManager()
+                .findFragmentByTag(RecipientAddressFragment.TAG);
+        if (recipientAddressFragment == null) {
+            recipientAddressFragment = RecipientAddressFragment.getInstance();
+        }
+        replaceFragment(recipientAddressFragment, RecipientAddressFragment.TAG);
+    }
+
+    @Override
+    public void showAmountPage() {
+        SendAmountFragment sendAmountFragment = (SendAmountFragment) getSupportFragmentManager()
+                .findFragmentByTag(SendAmountFragment.TAG);
+
+        if (sendAmountFragment == null)
+            sendAmountFragment = SendAmountFragment.getInstance();
+        else {
+            //updaste data if needed to the fragment
+        }
+        replaceFragment(sendAmountFragment, SendAmountFragment.TAG);
+    }
+
+    @Override
+    public void showStartTransferPage() {
+        StartSendingDialogFragment startSendingDialogFragment = (StartSendingDialogFragment) getSupportFragmentManager().findFragmentByTag(StartSendingDialogFragment.TAG);
+
+        if (startSendingDialogFragment == null)
+            startSendingDialogFragment = new StartSendingDialogFragment();
+        else {
+            //updaste data if needed to the fragment
+        }
+        startSendingDialogFragment.show(getSupportFragmentManager(), StartSendingDialogFragment.TAG);
+    }
+
+    @Override
+    public void showConfirmPage() {
+        ConfirmDialogFragment confirmDialogFragment = (ConfirmDialogFragment) getSupportFragmentManager().findFragmentByTag(ConfirmDialogFragment.TAG);
+
+        if (confirmDialogFragment == null)
+            confirmDialogFragment = new ConfirmDialogFragment();
+        else {
+            //updaste data if needed to the fragment
+        }
+        confirmDialogFragment.show(getSupportFragmentManager(), ConfirmDialogFragment.TAG);
+    }
+
+    @Override
+    public void showTransferCompletePage() {
+        Toast.makeText(this, "transfer complete!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showTransferFailedPage() {
+        Toast.makeText(this, "transfer failed!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showTransferTimeoutPage() {
+        Toast.makeText(this, "transfer timeout!", Toast.LENGTH_LONG).show();
+    }
+
+    private void replaceFragment(Fragment sendKinFragment, @NonNull String tag) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left,
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right)
+                .replace(R.id.fragmentContainer, sendKinFragment, tag);
+        transaction.commit();
     }
 }
