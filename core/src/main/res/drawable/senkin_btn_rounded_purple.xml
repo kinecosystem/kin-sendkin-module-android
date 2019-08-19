@@ -5,8 +5,8 @@
     <corners
         android:radius="@dimen/sendkin_button_rounder_radius" />
 
-    <padding android:top="@dimen/sendkin_text_padding_big"
-        android:bottom="@dimen/sendkin_text_padding_big"
+    <padding android:top="@dimen/sendkin_text_padding_small"
+        android:bottom="@dimen/sendkin_text_padding_small"
         android:left="@dimen/sendkin_text_padding_big"
         android:right="@dimen/sendkin_text_padding_big"/>
 </shape>

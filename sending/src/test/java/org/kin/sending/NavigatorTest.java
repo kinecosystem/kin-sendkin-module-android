@@ -31,12 +31,11 @@ public class NavigatorTest {
         verify(mockView).enableBack(true);
         navigator.onNext();
         assertTrue(navigator.isStep(Navigator.STEP_CONFIRM));
-        verify(mockView).showConfirmPage();
-        //TODO check
-        //verify(mockView).enableBack(true);
+        verify(mockView).showTransactionDialog(Navigator.STEP_CONFIRM);
+        verify(mockView).enableBack(true);
         navigator.onNext();
         assertTrue(navigator.isStep(Navigator.STEP_START_TRANSFER));
-        verify(mockView).showStartTransferPage();
+        verify(mockView).showTransactionDialog(Navigator.STEP_START_TRANSFER);
     }
 
     @Test

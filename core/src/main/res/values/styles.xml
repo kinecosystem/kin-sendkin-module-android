@@ -12,18 +12,20 @@
         <item name="android:fontFamily">@font/sailec</item>
         <item name="android:background">@drawable/sendkin_edittext_state_list</item>
         <item name="android:textColor">@drawable/sendkin_edittext_text_colors_state_list</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:scrollHorizontally">true</item>
     </style>
 
     <style name="SendKinEditText.PublicAddress">
-        <item name="android:scrollHorizontally">true</item>
         <item name="android:digits">1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
         <item name="android:inputType">textCapCharacters|textNoSuggestions</item>
+        <item name="android:maxLength">@integer/public_address_len</item>
     </style>
 
     <style name="SendKinEditText.Name">
         <item name="android:digits">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
-        <item name="android:ellipsize">middle</item>
-        <item name="android:inputType">textCapSentences|textNoSuggestions</item>
+        <item name="android:inputType">textCapWords|textNoSuggestions|textPersonName</item>
     </style>
 
     <style name="SendKinEditText.Amount">
@@ -34,6 +36,16 @@
         <item name="android:textSize">@dimen/sendkin_text_normal_size</item>
         <item name="android:fontFamily">@font/sailec_medium</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AmountTextDialog" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/sendkin_text_normal_size</item>
+        <item name="android:fontFamily">@font/sailec_medium</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AmountTextDialog.Purple">
+        <item name="android:textColor">@color/sendkin_purple</item>
     </style>
 
     <style name="SendKinTextBtn.Purple">

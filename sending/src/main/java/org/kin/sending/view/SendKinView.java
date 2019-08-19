@@ -16,7 +16,6 @@ public interface SendKinView extends BaseView {
 
     void enableBack(boolean enable);
 
-
     void showPublicAddressDialog(@NonNull final String publicAddress);
 
     void showWhatIsPublicAddressDialog();
@@ -25,13 +24,6 @@ public interface SendKinView extends BaseView {
 
     void showAmountPage();
 
-    void showStartTransferPage();
+    void showTransactionDialog(@Navigator.SendKinSteps int status);
 
-    void showConfirmPage();
-
-    void showTransferCompletePage();
-
-    void showTransferFailedPage();
-
-    void showTransferTimeoutPage();
 }
