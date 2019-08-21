@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+import org.kin.sending.events.EventsManager;
+import org.kin.sending.events.SendKinPages;
 import org.kin.sending.view.KinBalanceActionBar;
 import org.kin.sending.view.Navigator;
 import org.kin.sending.view.SendKinView;
@@ -77,11 +79,13 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
     @Override
     public void onShowPublicAddressDialogClicked() {
         view.showPublicAddressDialog(kinManager.getPublicAddress());
+        onViewPageEvent(SendKinPages.MY_PUBLIC_ADDRESS_POPUP);
     }
 
     @Override
     public void onShowWhatIsPublicAddressDialogClicked() {
         view.showWhatIsPublicAddressDialog();
+        onViewPageEvent(SendKinPages.WHATIS_PUBLIC_ADDRESS_POPUP);
     }
 
     @Override
@@ -112,16 +116,19 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
             public void onSendKinCompleted(String transactionId, String receiverAddress, int amount) {
                 navigator.updateStep(Navigator.STEP_TRANSFER_COMPLETE);
                 requestBalance();
+                EventsManager.getInstance().onTransferSuccess(transactionId);
             }
 
             @Override
             public void onSendKinFailed(String error, String receiverAddress, int amount) {
                 navigator.updateStep(Navigator.STEP_TRANSFER_FAILED);
+                EventsManager.getInstance().onTransferFailed();
             }
 
             @Override
             public void onSendKinTimeout(String error, String receiverAddress, int amount) {
                 navigator.updateStep(Navigator.STEP_TRANSFER_TIMEOUT);
+                EventsManager.getInstance().onTransactionTimeout();
             }
         });
     }
@@ -163,5 +170,9 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
     @Override
     public int getBalance() {
         return balance;
+    }
+
+    private void onViewPageEvent(@NonNull SendKinPages page){
+        EventsManager.getInstance().onViewPage(page);
     }
 }
