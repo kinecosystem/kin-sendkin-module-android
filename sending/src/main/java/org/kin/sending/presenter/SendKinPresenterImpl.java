@@ -16,7 +16,6 @@ import org.kin.sendkin.core.model.KinManager;
 import org.kin.sendkin.core.model.RecipientContact;
 import org.kin.sendkin.core.store.ContactsListener;
 import org.kin.sendkin.core.store.RecipientContactsRepo;
-
 import java.util.ArrayList;
 import java.util.UUID;
 

@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
         final KinAccount kinAccount = kinClient.getAccount(0);
         final String publicAddress = kinAccount.getPublicAddress();
         Log.d(TAG, "sample app public address " + publicAddress);

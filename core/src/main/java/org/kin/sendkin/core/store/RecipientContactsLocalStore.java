@@ -2,7 +2,6 @@ package org.kin.sendkin.core.store;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
 import org.kin.sendkin.core.model.RecipientContact;
 import org.kin.sendkin.core.view.Utils;
 
@@ -20,7 +19,6 @@ class RecipientContactsLocalStore {
 
     public void save(ArrayList<RecipientContact> recipientContacts) {
         store.putString(KEY_ALL_CONTACTS, Utils.parseToString(recipientContacts));
-
     }
 
     @NonNull

@@ -75,8 +75,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contactNickName" />
 
-
-
     <TextView
         android:id="@+id/recipientAddress"
         style="@style/SendKinTitle"
@@ -414,7 +412,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="delimSuccess, successText,contactName, saveBtn, cancelSave, dialogSendCompleteTitle, dialogSendCompleteIcon"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/dialogErrorIcon"
@@ -487,7 +485,5 @@
         tools:layout_editor_absoluteX="68dp"
         tools:layout_editor_absoluteY="40dp"
         tools:visibility="gone" />
-
-
 
 </android.support.constraint.ConstraintLayout>

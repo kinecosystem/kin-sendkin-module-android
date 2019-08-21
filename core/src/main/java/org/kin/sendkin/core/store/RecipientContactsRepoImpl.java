@@ -22,7 +22,6 @@ public class RecipientContactsRepoImpl implements RecipientContactsRepo {
     private ContactsListener contactsListener = null;
     private Handler mainHandler = new Handler(Looper.getMainLooper());
 
-
     public RecipientContactsRepoImpl(@NonNull Context context) {
         store = new RecipientContactsLocalStore(new LocalStore(context, STORE_NAME));
     }

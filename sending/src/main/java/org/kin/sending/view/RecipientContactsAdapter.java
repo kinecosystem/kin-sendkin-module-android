@@ -19,7 +19,6 @@ public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientCont
 
     public interface RecipientContactTouchListener {
         void onEditContact(@NonNull UUID id);
-
         void onContactClicked(@NonNull UUID id);
     }
 

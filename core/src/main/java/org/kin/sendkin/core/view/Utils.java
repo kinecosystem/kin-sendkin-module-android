@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Utils {
 
     private static Gson gson = new Gson();
-    public static final int SHORT_ADDRESS_DIGITS_LEN = 6;
+    private static final int SHORT_ADDRESS_DIGITS_LEN = 6;
 
     public static String getPasteString(@NonNull ClipboardManager clipboard) {
         ClipData pData = clipboard.getPrimaryClip();

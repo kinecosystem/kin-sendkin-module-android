@@ -112,7 +112,6 @@ public class Navigator {
                 break;
             case STEP_TRANSFER_COMPLETE:
                 view.showTransactionDialog(STEP_TRANSFER_COMPLETE);
-
                 break;
             case STEP_TRANSFER_FAILED:
                 view.showTransactionDialog(STEP_TRANSFER_FAILED);

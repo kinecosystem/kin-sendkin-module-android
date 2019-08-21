@@ -41,7 +41,6 @@ public class SendKinPresenterTest {
 
     private final String MY_ADDRESS = "GB5HR4O3RTH6EHFAMJTL2ZHGP54K2EHUTFNUIS43WTZUOWRHQMGLFNHH";
 
-
     private final String OTHER_ADDRESS = "GCCLBNMWRUKPaWV4J6H42KAQQ6GSOG6YKRNONAT3QDOGRH3T3EQGSXJR";
     private final String namNotValid = "";
     private UUID id;
@@ -66,7 +65,6 @@ public class SendKinPresenterTest {
         contactsRepoMock = mock(RecipientContactsRepo.class);
         when(contactsRepoMock.getRecipientContact(id)).thenReturn(contact);
         addressListenerMock = mock(RecipientAddressListener.class);
-
         // when(sendKinPresenter.getContact(contact.getId())).thenReturn(contact);
 
 
@@ -109,7 +107,6 @@ public class SendKinPresenterTest {
         verify(contactsRepoMock).remove(id);
     }
 
-
     @Test
     public void getContactTest() {
         RecipientContact someContact = presenter.getContact(id);
@@ -136,7 +133,6 @@ public class SendKinPresenterTest {
         ArgumentCaptor<BalanceCallback> argument = ArgumentCaptor.forClass(BalanceCallback.class);
         verify(kinManagerMock).getCurrentBalance(argument.capture());
     }
-
 
     @Test
     public void setRecipientAddressContactClickedTest() {
@@ -170,5 +166,4 @@ public class SendKinPresenterTest {
         presenter.onShowPublicAddressDialogClicked();
         verify(mockView).showPublicAddressDialog(MY_ADDRESS);
     }
-
 }

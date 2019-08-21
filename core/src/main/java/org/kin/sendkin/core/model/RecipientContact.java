@@ -12,7 +12,7 @@ public class RecipientContact implements Comparable<RecipientContact> {
     @SerializedName("contact_address")
     private String address;
     @SerializedName("contact_id")
-    private final UUID id;
+    private UUID id;
 
     public RecipientContact(String name, String address) {
         this.name = name;
@@ -58,6 +58,7 @@ public class RecipientContact implements Comparable<RecipientContact> {
 
     public void setAddress(String address) {
         this.address = address;
+        id = UUID.randomUUID();
     }
 
     public String getName() {
