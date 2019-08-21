@@ -1,11 +1,13 @@
 package org.kin.sendkin.core.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.UUID;
 
-public class RecipientContact {
+public class RecipientContact implements Comparable<RecipientContact> {
     private String name = "";
     private String address = "";
-    private UUID id = UUID.randomUUID();
+    private final UUID id;
 
     public void setName(String name) {
         this.name = name;
@@ -18,6 +20,7 @@ public class RecipientContact {
     public RecipientContact(String name, String address) {
         this.name = name;
         this.address = address;
+        id = UUID.randomUUID();
     }
 
     public String getName() {
@@ -32,6 +35,39 @@ public class RecipientContact {
         return id;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof RecipientContact)) {
+            return false;
+        }
+        RecipientContact contact = (RecipientContact) o;
+        return name.equals(contact.name) &&
+                address.equals(contact.address) &&
+                id.equals(contact.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
+
+
+    @Override
+    public int compareTo(@NonNull RecipientContact contact) {
+        if (!name.toLowerCase().equals(contact.name.toLowerCase()))
+            return name.toLowerCase().compareTo(contact.name.toLowerCase());
+        if (!address.equals(contact.address)) {
+            return address.compareTo(contact.address);
+        }
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Name:[" + name + "] address:[" + address + "] id:[" + id + "]";
+    }
 
 
 }

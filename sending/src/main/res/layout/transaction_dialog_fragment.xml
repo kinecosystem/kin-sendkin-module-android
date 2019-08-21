@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:focusableInTouchMode="true"
     android:layout_height="wrap_content">
 
     <View
@@ -37,12 +38,28 @@
         android:layout_marginStart="@dimen/alert_padding"
         android:layout_marginLeft="@dimen/alert_padding"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="@dimen/alert_padding"
-        android:layout_marginRight="@dimen/alert_padding"
         android:text="@string/sending_to"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialogConfirm" />
+
+    <TextView
+        android:id="@+id/contactNickName"
+        style="@style/SendKinActionBarTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:gravity="right"
+        tools:text="Some Nick Name"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/sendingToTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sendingToTitle"
+        app:layout_constraintTop_toTopOf="@+id/sendingToTitle" />
+
 
 
     <TextView
@@ -71,7 +88,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="@dimen/alert_padding"
         android:layout_marginRight="@dimen/alert_padding"
-        android:background="@color/sendkin_grey"
+        android:background="@color/sendkin_delimiter_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +140,7 @@
         android:layout_marginTop="45dp"
         android:layout_marginEnd="@dimen/alert_padding"
         android:layout_marginRight="@dimen/alert_padding"
-        android:background="@color/sendkin_grey"
+        android:background="@color/sendkin_delimiter_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +185,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="kinIcon, amountTitle, sendingToTitle, delimTop2, amount, delimTop, recipientAddress, sendBtn, cancelSend, dialogConfirm"
+        app:constraint_referenced_ids="kinIcon, amountTitle, contactNickName, sendingToTitle, delimTop2, amount, delimTop, recipientAddress, sendBtn, cancelSend, dialogConfirm"
         tools:visibility="gone" />
 
     <TextView
@@ -182,7 +199,7 @@
         android:layout_marginEnd="@dimen/alert_padding"
         android:layout_marginRight="@dimen/alert_padding"
         android:gravity="center"
-        android:text="@string/send_kin"
+        android:text="@string/sending_kin_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -198,7 +215,7 @@
         android:layout_marginBottom="140dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_wallet_item" />
+        app:srcCompat="@drawable/ic_wallet_purple_icon" />
 
     <ImageView
         android:id="@+id/walletLeft"
@@ -212,7 +229,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialogSendingTitle"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_wallet_item" />
+        app:srcCompat="@drawable/ic_wallet_purple_icon" />
 
     <TextView
         android:id="@+id/sendingAmount"
@@ -250,7 +267,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
-
+        android:indeterminate="true"
         android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/walletRight"
         app:layout_constraintEnd_toStartOf="@+id/walletRight"
@@ -325,8 +342,6 @@
         android:layout_marginEnd="@dimen/alert_padding"
         android:layout_marginRight="@dimen/alert_padding"
         android:hint="Nick Name"
-        android:maxLength="@integer/name_max_len"
-        android:scrollHorizontally="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/successText" />
@@ -337,10 +352,10 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/alert_padding"
         android:layout_marginLeft="@dimen/alert_padding"
-        android:layout_marginTop="@dimen/alert_padding"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="@dimen/alert_padding"
         android:layout_marginRight="@dimen/alert_padding"
-        android:background="@color/sendkin_grey"
+        android:background="@color/sendkin_delimiter_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -353,7 +368,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/alert_padding"
         android:layout_marginLeft="@dimen/alert_padding"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="@dimen/alert_padding"
         android:layout_marginRight="@dimen/alert_padding"
         android:text="@string/save"
@@ -384,7 +399,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="delimSuccess, successText,contactName, saveBtn, cancelSave, dialogSendCompleteTitle, dialogSendCompleteIcon"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/dialogErrorIcon"
@@ -457,6 +472,5 @@
         tools:layout_editor_absoluteX="68dp"
         tools:layout_editor_absoluteY="40dp"
         tools:visibility="gone" />
-
 
 </android.support.constraint.ConstraintLayout>

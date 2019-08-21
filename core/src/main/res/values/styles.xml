@@ -5,6 +5,7 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorAccent">@color/sendkin_purple</item>
     </style>
 
     <style name="SendKinEditText" parent="@android:style/Widget.EditText">
@@ -21,11 +22,14 @@
         <item name="android:digits">1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
         <item name="android:inputType">textCapCharacters|textNoSuggestions</item>
         <item name="android:maxLength">@integer/public_address_len</item>
+        <item name="android:scrollHorizontally">true</item>
     </style>
 
     <style name="SendKinEditText.Name">
         <item name="android:digits">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
         <item name="android:inputType">textCapWords|textNoSuggestions|textPersonName</item>
+        <item name="android:maxLength">@integer/contact_name_max_len</item>
+        <item name="android:scrollHorizontally">true</item>
     </style>
 
     <style name="SendKinEditText.Amount">

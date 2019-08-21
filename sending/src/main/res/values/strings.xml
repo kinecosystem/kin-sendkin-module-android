@@ -22,4 +22,17 @@
     <string name="connection_timedout_title">Connection timed out</string>
     <string name="transaction_timeout_text">Your transfer may still go through successfully. Check your balance later.</string>
     <string name="public_address_info">A public address is a unique identifier for an account on the Kin blockchain. When coupled with its private key, it can be used to perform actions on the blockchain account.</string>
+    <string name="add_new">Add new</string>
+    <string name="no_contacts_info">You haven’t saved any addresses yet</string>
+    <string name="add_new_address">Add new address</string>
+    <string name="address_nickname">Address’ nickname</string>
+    <string name="nickname">Nickname</string>
+    <string name="paste">Paste</string>
+    <string name="address">Address</string>
+    <string name="public_address">Public address</string>
+    <string name="save_a_new_address">Save a new address</string>
+    <string name="edit_address">Edit address</string>
+    <string name="delete">Delete</string>
+    <string name="delete_subtitle">Are you sure you want to delete %1$s?</string>
+    <string name="delete_address">Delete address</string>
 </resources>

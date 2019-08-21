@@ -19,7 +19,7 @@ public class PublicAddressDialogFragment extends DialogFragment {
     private static final String PUBLIC_ADDRESS_KEY = "PUBLIC_ADDRESS_KEY";
 
 
-    public static PublicAddressDialogFragment getIntance(String publicAddress){
+    public static PublicAddressDialogFragment getInstance(String publicAddress){
         PublicAddressDialogFragment dialog = new PublicAddressDialogFragment();
         Bundle args = new Bundle();
         args.putString(PUBLIC_ADDRESS_KEY, publicAddress);

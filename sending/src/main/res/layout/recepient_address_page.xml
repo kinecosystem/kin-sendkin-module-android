@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
 
@@ -24,13 +25,13 @@
         style="@style/SendKinTitle.Purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
         android:layout_marginEnd="@dimen/padding_normal"
         android:layout_marginRight="@dimen/padding_normal"
         android:text="@android:string/paste"
         android:textColor="@color/sendkin_purple"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/title" />
 
     <org.kin.sendkin.core.view.SendKinEditText
         android:id="@+id/recipientAddress"
@@ -42,7 +43,7 @@
         android:layout_marginTop="@dimen/padding_small"
         android:layout_marginEnd="@dimen/padding_normal"
         android:layout_marginRight="@dimen/padding_normal"
-        android:scrollHorizontally="true"
+        android:hint="@string/address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,11 +76,12 @@
         android:layout_marginTop="@dimen/padding_small"
         android:layout_marginEnd="@dimen/padding_normal"
         android:layout_marginRight="24dp"
-        android:visibility="gone"
         android:text="@string/the_address_is_invalid"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/next" />
+        app:layout_constraintTop_toBottomOf="@+id/next"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/showAddress"
@@ -110,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="18dp"
-        android:background="#f7f7f7"
+        android:background="#F2F2F2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,5 +131,101 @@
         app:layout_constraintBottom_toBottomOf="@+id/addressBookHeader"
         app:layout_constraintStart_toStartOf="@+id/addressBookHeader"
         app:layout_constraintTop_toTopOf="@+id/addressBookHeader" />
+
+    <TextView
+        android:id="@+id/addNewContact"
+        style="@style/SendKinTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:text="@string/add_new"
+        android:textSize="@dimen/sendkin_text_small_size"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/addressBookHeader"
+        app:layout_constraintEnd_toEndOf="@+id/addressBookHeader"
+        app:layout_constraintTop_toTopOf="@+id/addressBookHeader"
+        tools:visibility="visible" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contactsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressBookHeader" />
+
+    <ImageView
+        android:id="@+id/walletIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/noContactTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressBookHeader"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/ic_big_wallet" />
+
+    <TextView
+        android:id="@+id/noContactTitle"
+        style="@style/SendKinTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:lineSpacingExtra="7sp"
+        android:text="@string/no_contacts_info"
+        android:textColor="@color/sendkin_grey"
+        android:textSize="14sp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@+id/addNewContactBtn"
+        app:layout_constraintEnd_toEndOf="@+id/addNewContactBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/addNewContactBtn"
+        app:layout_constraintTop_toBottomOf="@+id/walletIcon" />
+
+    <TextView
+        android:id="@+id/addNewContactBtn"
+        style="@style/SendKinTextBtn.White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/add_new_address"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noContactTitle" />
+
+    <android.support.constraint.Group
+        android:id="@+id/groupEmptyListContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="addNewContactBtn, noContactTitle, walletIcon"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <android.support.constraint.Group
+        android:id="@+id/groupListContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="contactsList, addNewContact"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressBookHeader"
+        android:visibility="gone"/>
+
 
 </android.support.constraint.ConstraintLayout>

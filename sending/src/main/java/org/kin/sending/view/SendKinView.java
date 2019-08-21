@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import org.kin.sending.presenter.SendKinPresenter;
 import org.kin.sendkin.core.base.BaseView;
 
+import java.util.UUID;
+
 public interface SendKinView extends BaseView {
 
     @NonNull
@@ -20,10 +22,13 @@ public interface SendKinView extends BaseView {
 
     void showWhatIsPublicAddressDialog();
 
+    void showContactDialog(@NonNull UUID id);
+
     void showRecipientAddressPage();
 
     void showAmountPage();
 
     void showTransactionDialog(@Navigator.SendKinSteps int status);
 
+    void showAddNewContactDialog();
 }

@@ -13,6 +13,7 @@ import org.kin.sending.events.SendKinPages;
 import kin.sdk.Environment;
 import kin.sdk.KinAccount;
 import kin.sdk.KinClient;
+import kin.sdk.exception.CreateAccountException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
         //GB5HR4O3RTH6EHFAMJTL2ZHGP54K2EHUTFNUIS43WTZUOWRHQMGLFNHH
 
+        //GBBRWYJJD2MFL5JCGH7VMWQBOBW2VOYDPPG7ERXW33XVP5X566AWZ6YR
+
         String appId = "abc";
         final KinClient kinClient = new KinClient(this, Environment.TEST, appId, "");
 //        try {
-//            kinClient.addAccount();
+//            //kinClient.addAccount();
 //        } catch (CreateAccountException e) {
 //            e.printStackTrace();
 //        }
