@@ -17,25 +17,21 @@ public class KinSenderManager {
     private KinAccount kinAccount;
     private EventsManager eventsManager;
 
-    public KinSenderManager(@NonNull KinClient kinClient, @NonNull KinAccount kinAccount, @Nullable SendKinEventsListener listener) {
-        this.kinAccount = kinAccount;
-        this.kinClient = kinClient;
-        this.eventsManager = EventsManager.getInstance();
-        if(listener != null) {
-            eventsManager.setEventsListener(listener);
-        }
-    }
-
     public KinSenderManager(@NonNull KinClient kinClient, @NonNull KinAccount kinAccount) {
         this(kinClient, kinAccount, null);
     }
 
-    public void startSendingContactFlow(Context context) throws Exception {
-        if (kinClient != null && kinAccount != null) {
-            context.startActivity(SendKinActivity.getIntent(context, kinClient, kinAccount.getPublicAddress()));
-        } else {
-            throw new Exception("must call first init(@NonNull KinClient kinClient, @NonNull KinAccount kinAccount)");
+    public KinSenderManager(@NonNull KinClient kinClient, @NonNull KinAccount kinAccount, @Nullable SendKinEventsListener listener) {
+        this.kinAccount = kinAccount;
+        this.kinClient = kinClient;
+        this.eventsManager = EventsManager.getInstance();
+        if (listener != null) {
+            eventsManager.setEventsListener(listener);
         }
+    }
+
+    public void startSendingContactFlow(Context context) {
+        context.startActivity(SendKinActivity.getIntent(context, kinClient, kinAccount.getPublicAddress()));
     }
 
 }

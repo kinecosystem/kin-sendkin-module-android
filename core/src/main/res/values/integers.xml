@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="public_address_len">56</integer>
+    <integer name="contact_name_max_len">30</integer>
+
 </resources>

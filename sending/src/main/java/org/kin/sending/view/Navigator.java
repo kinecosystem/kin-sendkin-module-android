@@ -64,6 +64,8 @@ public class Navigator {
             case STEP_RECIPIENT_ADDRESS:
                 step = STEP_AMOUNT;
                 break;
+            case STEP_TRANSFER_FAILED:
+            case STEP_TRANSFER_TIMEOUT:
             case STEP_TRANSFER_COMPLETE:
                 step = STEP_RECIPIENT_ADDRESS;
                 break;
@@ -81,14 +83,10 @@ public class Navigator {
             case STEP_RECIPIENT_ADDRESS:
                 step = STEP_INVALID;
                 break;
-            case STEP_TRANSFER_COMPLETE:
-                step = STEP_AMOUNT;
-                break;
             case STEP_TRANSFER_FAILED:
-                step = STEP_AMOUNT;
-                break;
             case STEP_TRANSFER_TIMEOUT:
-                step = STEP_AMOUNT;
+            case STEP_TRANSFER_COMPLETE:
+                step = STEP_RECIPIENT_ADDRESS;
                 break;
         }
     }
@@ -114,8 +112,7 @@ public class Navigator {
                 break;
             case STEP_TRANSFER_COMPLETE:
                 view.showTransactionDialog(STEP_TRANSFER_COMPLETE);
-                //view.showTransactionDialog(STEP_TRANSFER_FAILED);
-                //view.showTransactionDialog(STEP_TRANSFER_TIMEOUT);
+
                 break;
             case STEP_TRANSFER_FAILED:
                 view.showTransactionDialog(STEP_TRANSFER_FAILED);

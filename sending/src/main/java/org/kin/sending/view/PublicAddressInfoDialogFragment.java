@@ -12,7 +12,7 @@ public class PublicAddressInfoDialogFragment extends DialogFragment {
 
     public static final String TAG = PublicAddressInfoDialogFragment.class.getSimpleName();
 
-    public static PublicAddressInfoDialogFragment getIntance(){
+    public static PublicAddressInfoDialogFragment getInstance(){
         PublicAddressInfoDialogFragment dialog = new PublicAddressInfoDialogFragment();
         return dialog;
     }

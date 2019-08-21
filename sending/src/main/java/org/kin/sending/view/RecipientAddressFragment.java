@@ -4,7 +4,10 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,6 +27,11 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
 
     private SendKinEditText inputRecipientAddress;
     private TextView errorInfo;
+    private RecyclerView contactsList;
+    private SendKinPresenter sendKinPresenter;
+    private RecipientContactsAdapter listAdapter;
+    private Group listGroupView, emptyListGroupView;
+    private View loader;
 
     public static RecipientAddressFragment getInstance() {
         RecipientAddressFragment fragment = new RecipientAddressFragment();
@@ -39,13 +47,19 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
         if (!(getActivity() instanceof SendKinView)) {
             getActivity().finish();
         }
-        SendKinPresenter sendKinPresenter = ((SendKinView) getActivity()).getSendKinPresenter();
+        sendKinPresenter = ((SendKinView) getActivity()).getSendKinPresenter();
         View root = inflater.inflate(R.layout.recepient_address_page, container, false);
         ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         presenter = new RecipientAddressPresenterImpl(sendKinPresenter, clipboard);
         presenter.onAttach(this);
         initViews(root);
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.onResume();
     }
 
     private void initViews(View root) {
@@ -55,7 +69,25 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
                 presenter.onNextClicked();
             }
         });
+
+        //TODO REMOVE FOR TESTING ONLY!!!
+        root.findViewById(R.id.addressBookTitle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.deleteAll();
+            }
+        });
+
         inputRecipientAddress = root.findViewById(R.id.recipientAddress);
+        contactsList = root.findViewById(R.id.contactsList);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        contactsList.setLayoutManager(linearLayoutManager);
+        listAdapter = new RecipientContactsAdapter(sendKinPresenter.getRecipientContactsRepo(), sendKinPresenter);
+        contactsList.setAdapter(listAdapter);
+        listGroupView = root.findViewById(R.id.groupListContacts);
+        emptyListGroupView = root.findViewById(R.id.groupEmptyListContacts);
+        loader = root.findViewById(R.id.loader);
         inputRecipientAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,6 +123,26 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
                 presenter.onWhatIsPublicAddressClicked();
             }
         });
+        root.findViewById(R.id.addNewContact).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onAddNewContactClicked();
+            }
+        });
+        root.findViewById(R.id.addNewContactBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onAddNewContactClicked();
+            }
+        });
+    }
+
+    @Override
+    public void scrollToPosition(int position, boolean animateItem) {
+        contactsList.smoothScrollToPosition(position);
+        if (animateItem) {
+            //TODO animate
+        }
     }
 
     @Override
@@ -109,6 +161,28 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
     @Override
     public void updateReceiverAddress(String pasteAddress) {
         inputRecipientAddress.setText(pasteAddress);
-        //TODO scroll to the end
+    }
+
+    @Override
+    public void notifyContactChanged() {
+        listAdapter.refreshData();
+    }
+
+    @Override
+    public void updateListVisibility(final boolean isEmptyList) {
+        if (!isEmptyList) {
+            loader.setVisibility(View.GONE);
+            listGroupView.setVisibility(View.VISIBLE);
+            emptyListGroupView.setVisibility(View.GONE);
+        } else {
+            loader.setVisibility(View.GONE);
+            listGroupView.setVisibility(View.GONE);
+            emptyListGroupView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void showContactsLoader() {
+        loader.setVisibility(View.VISIBLE);
     }
 }
