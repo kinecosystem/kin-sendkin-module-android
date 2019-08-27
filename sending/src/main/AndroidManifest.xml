@@ -1,9 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.kin.sending" >
-    <application>
-        <activity
-            android:name=".view.SendKinActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SendKineNoActionBar"/>
-    </application>
-</manifest>

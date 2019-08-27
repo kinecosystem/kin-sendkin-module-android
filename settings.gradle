@@ -1,1 +1,1 @@
-include ':app', ':core', ':sending'
+include ':kin-sendkin-sample', ':kin-sendkin-core', ':kin-sendkin-lib'
