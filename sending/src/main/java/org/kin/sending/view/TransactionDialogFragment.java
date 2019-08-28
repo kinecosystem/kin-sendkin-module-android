@@ -5,21 +5,22 @@ import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.kin.sending.R;
 import org.kin.sending.presenter.SendKinPresenter;
+import org.kin.sendkin.core.model.RecipientContact;
 import org.kin.sendkin.core.view.BaseWideDialogFragment;
 import org.kin.sendkin.core.view.SendKinEditText;
+import org.kin.sendkin.core.view.Utils;
 
 public class TransactionDialogFragment extends BaseWideDialogFragment {
 
     private static final String KEY_STATUS = "KEY_STATUS";
     public static final String TAG = TransactionDialogFragment.class.getSimpleName();
-    private TextView dialogErrorText, recipientAddress, amount, amountSending, errorText;
+    private TextView dialogErrorText, recipientAddress, amount, amountSending, errorText, contactNickName, shortAddress;
     private ImageView dialogErrorIcon;
     private SendKinPresenter sendKinPresenter;
     private Group confirmGroup, sendingGroup, completeGroup, errorGroup;
@@ -90,17 +91,18 @@ public class TransactionDialogFragment extends BaseWideDialogFragment {
             public void onClick(View v) {
                 boolean isValidName = sendKinPresenter.setContactName(contactName);
                 if (isValidName) {
-                    sendKinPresenter.saveContact();
+                    sendKinPresenter.saveNewContact();
                     dismiss();
                     onNext();
                 } else {
-                        nameInput.showError();
-                        Log.d("###", "### name is not valid " + contactName);
-                    }
+                    nameInput.showError();
                 }
+            }
         });
         nameInput = view.findViewById(R.id.contactName);
         nameInput.addTextChangedListener(nameWatcher);
+        contactNickName = view.findViewById(R.id.contactNickName);
+        shortAddress = view.findViewById(R.id.shortAddress);
         recipientAddress = view.findViewById(R.id.recipientAddress);
         confirmGroup = view.findViewById(R.id.groupConfirm);
         sendingGroup = view.findViewById(R.id.groupSending);
@@ -113,18 +115,33 @@ public class TransactionDialogFragment extends BaseWideDialogFragment {
         dialogErrorIcon = view.findViewById(R.id.dialogErrorIcon);
 
         final int status = getArguments().getInt(KEY_STATUS);
-        setStatus(status);
+        setStep(status);
         setCancelable(false);
     }
 
-    public void setStatus(@Navigator.SendKinSteps int status) {
+    public void setStep(@Navigator.SendKinSteps int step) {
         confirmGroup.setVisibility(View.GONE);
         sendingGroup.setVisibility(View.GONE);
         completeGroup.setVisibility(View.GONE);
         errorGroup.setVisibility(View.GONE);
-        switch (status) {
+        switch (step) {
             case Navigator.STEP_CONFIRM:
-                recipientAddress.setText(sendKinPresenter.getRecipientAddress());
+                RecipientContact chosenContact = sendKinPresenter.getChosenContact();
+                if (chosenContact != null) {
+                    contactNickName.setText(chosenContact.getName());
+                    contactNickName.setVisibility(View.VISIBLE);
+                    recipientAddress.setText("");
+                    shortAddress.setText(Utils.getAddressShortenFormat(sendKinPresenter.getRecipientAddress()));
+                    shortAddress.setVisibility(View.VISIBLE);
+                    recipientAddress.setVisibility(View.GONE);
+                } else {
+                    contactNickName.setText("");
+                    contactNickName.setVisibility(View.GONE);
+                    shortAddress.setVisibility(View.GONE);
+                    recipientAddress.setVisibility(View.VISIBLE);
+                    shortAddress.setText("");
+                    recipientAddress.setText(sendKinPresenter.getRecipientAddress());
+                }
                 amount.setText(sendKinPresenter.getAmount() + "");
                 confirmGroup.setVisibility(View.VISIBLE);
                 break;
@@ -133,7 +150,14 @@ public class TransactionDialogFragment extends BaseWideDialogFragment {
                 sendingGroup.setVisibility(View.VISIBLE);
                 break;
             case Navigator.STEP_TRANSFER_COMPLETE:
-                completeGroup.setVisibility(View.VISIBLE);
+                if (sendKinPresenter.getChosenContact() != null) {
+                    dialogErrorText.setText(getResources().getString(R.string.kin_sent_successfully_title));
+                    errorText.setText(R.string.kin_sent_successfully_title);
+                    dialogErrorIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_send_icon));
+                    errorGroup.setVisibility(View.VISIBLE);
+                } else {
+                    completeGroup.setVisibility(View.VISIBLE);
+                }
                 break;
             case Navigator.STEP_TRANSFER_FAILED:
                 dialogErrorText.setText(getResources().getString(R.string.transaction_failed_title));

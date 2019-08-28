@@ -25,11 +25,12 @@ public class RecipientAddressPresenterTest {
         sendKinPresenter = mock(SendKinPresenter.class);
         mockView = mock(RecipientAddressView.class);
         presenter = new RecipientAddressPresenterImpl(sendKinPresenter, null);
+        presenter.onAttach(mockView);
+        presenter.onResume();
     }
 
     @Test
     public void onNextClickedTest() {
-        presenter.onAttach(mockView);
         presenter.setRecipientAddress(emptyAddress);
         presenter.onNextClicked();
         verify(mockView, times(1)).showAddressValidity(false, false);
@@ -51,5 +52,30 @@ public class RecipientAddressPresenterTest {
     public void onWhatIsPublicAddressClickedTest() {
         presenter.onWhatIsPublicAddressClicked();
         verify(sendKinPresenter, times(1)).onShowWhatIsPublicAddressDialogClicked();
+    }
+
+
+    @Test
+    public void onAddNewContactClickedTest() {
+        presenter.onAddNewContactClicked();
+        verify(sendKinPresenter).onAddNewContactClicked();
+    }
+
+    @Test
+    public void setRecipientAddress() {
+        presenter.setRecipientAddress(validAddress);
+        verify(mockView).showAddressValidity(true, false);
+        verify(sendKinPresenter).setRecipientAddress(validAddress);
+    }
+
+    @Test
+    public void onResumeTest() {
+        verify(sendKinPresenter).loadContacts();
+    }
+
+    @Test
+    public void onBackClicked() {
+        presenter.onBackClicked();
+        verify(sendKinPresenter).onPrevious();
     }
 }

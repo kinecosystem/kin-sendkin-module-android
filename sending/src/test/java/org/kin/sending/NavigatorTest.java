@@ -53,4 +53,10 @@ public class NavigatorTest {
         navigator.onPrevious();
         verify(mockView).onClose();
     }
+
+    @Test
+    public void shouldStartTransferTest(){
+        navigator.setStep(Navigator.STEP_START_TRANSFER);
+        assertTrue(navigator.shouldStartTransfer());
+    }
 }

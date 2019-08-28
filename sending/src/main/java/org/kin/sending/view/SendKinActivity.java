@@ -15,6 +15,9 @@ import org.kin.sending.presenter.SendKinPresenter;
 import org.kin.sending.presenter.SendKinPresenterImpl;
 import org.kin.sendkin.core.model.KinAccountUtils;
 import org.kin.sendkin.core.model.KinManagerImpl;
+import org.kin.sendkin.core.store.RecipientContactsRepoImpl;
+
+import java.util.UUID;
 
 import kin.sdk.KinAccount;
 import kin.sdk.KinClient;
@@ -39,7 +42,7 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
         setContentView(getContentLayout());
         final KinAccount kinAccount = KinAccountUtils.loadAccountClientData(this, getIntent());
         if (kinAccount != null) {
-            presenter = new SendKinPresenterImpl(new KinManagerImpl(kinAccount), new Navigator(this));
+            presenter = new SendKinPresenterImpl(new KinManagerImpl(kinAccount), new RecipientContactsRepoImpl(this), new Navigator(this));
             initViews();
             presenter.onAttach(this);
         }
@@ -85,14 +88,20 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
 
     @Override
     public void showPublicAddressDialog(@NonNull final String publicAddress) {
-        PublicAddressDialogFragment dialogFragment = PublicAddressDialogFragment.getIntance(publicAddress);
+        PublicAddressDialogFragment dialogFragment = PublicAddressDialogFragment.getInstance(publicAddress);
         dialogFragment.show(getSupportFragmentManager(), PublicAddressDialogFragment.TAG);
     }
 
     @Override
     public void showWhatIsPublicAddressDialog() {
-        PublicAddressInfoDialogFragment dialogFragment = PublicAddressInfoDialogFragment.getIntance();
+        PublicAddressInfoDialogFragment dialogFragment = PublicAddressInfoDialogFragment.getInstance();
         dialogFragment.show(getSupportFragmentManager(), PublicAddressInfoDialogFragment.TAG);
+    }
+
+    @Override
+    public void showContactDialog(@NonNull UUID id) {
+        ContactDialogFragment dialogFragment = ContactDialogFragment.getInstance(id);
+        dialogFragment.show(getSupportFragmentManager(), ContactDialogFragment.TAG);
     }
 
     @Override
@@ -128,11 +137,17 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
             dialogFragment.show(getSupportFragmentManager(), TransactionDialogFragment.TAG);
 
         } else {
-            dialogFragment.setStatus(status);
+            dialogFragment.setStep(status);
             if (!dialogFragment.getDialog().isShowing()) {
                 dialogFragment.show(getSupportFragmentManager(), TransactionDialogFragment.TAG);
             }
         }
+    }
+
+    @Override
+    public void showAddNewContactDialog() {
+        ContactDialogFragment dialogFragment = ContactDialogFragment.getInstance();
+        dialogFragment.show(getSupportFragmentManager(), ContactDialogFragment.TAG);
     }
 
     private void replaceFragment(Fragment sendKinFragment, @NonNull String tag) {

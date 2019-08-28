@@ -15,6 +15,7 @@ import org.kin.sending.presenter.SendAmountPresenter;
 import org.kin.sending.presenter.SendAmountPresenterImpl;
 import org.kin.sending.presenter.SendKinPresenter;
 import org.kin.sendkin.core.view.SendKinEditText;
+import org.kin.sendkin.core.view.Utils;
 
 public class SendAmountFragment extends Fragment implements SendAmountView {
 
@@ -70,7 +71,7 @@ public class SendAmountFragment extends Fragment implements SendAmountView {
             }
         });
         errorInfo = root.findViewById(R.id.errorInfo);
-        ((TextView) root.findViewById(R.id.recipientAddressShorten)).setText(recipientAddress);
+        ((TextView) root.findViewById(R.id.recipientAddressShorten)).setText(Utils.getAddressShortenFormat(recipientAddress));
     }
 
     @Override

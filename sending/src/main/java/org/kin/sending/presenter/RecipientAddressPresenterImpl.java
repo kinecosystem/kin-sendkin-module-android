@@ -3,13 +3,11 @@ package org.kin.sending.presenter;
 import android.content.ClipboardManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.text.Editable;
-import android.text.TextWatcher;
 
 import org.kin.sending.view.RecipientAddressView;
 import org.kin.sendkin.core.base.BasePresenterImpl;
 import org.kin.sendkin.core.model.KinAccountUtils;
-import org.kin.sendkin.core.model.RecipientContact;
+import org.kin.sendkin.core.store.ContactsListener;
 import org.kin.sendkin.core.view.Utils;
 
 
@@ -21,11 +19,46 @@ public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAd
     public RecipientAddressPresenterImpl(@NonNull SendKinPresenter sendKinPresenter, @NonNull ClipboardManager clipboard) {
         this.clipboard = clipboard;
         this.sendKinPresenter = sendKinPresenter;
+        sendKinPresenter.setContactsListener(new ContactsListener() {
+            @Override
+            public void onContactChanged(boolean isEmptyList) {
+                getView().notifyContactChanged();
+                getView().updateListVisibility(isEmptyList);
+            }
+
+            @Override
+            public void onContactAdded(int position) {
+                getView().notifyContactChanged();
+                getView().updateListVisibility(false);
+                getView().scrollToPosition(position, true);
+            }
+
+            @Override
+            public void onContactsLoaded(boolean isEmptyList) {
+                getView().updateListVisibility(isEmptyList);
+            }
+
+            @Override
+            public void onContactsLoading() {
+                getView().showContactsLoader();
+            }
+        });
+        sendKinPresenter.setRecipientAddressListener(new RecipientAddressListener() {
+            @Override
+            public void onRecipientAddressChanged(@NonNull String address) {
+                getView().updateReceiverAddress(address);
+            }
+        });
     }
 
     @Override
     public void onShowPublicAddressClicked() {
         sendKinPresenter.onShowPublicAddressDialogClicked();
+    }
+
+    @Override
+    public void onAddNewContactClicked() {
+        sendKinPresenter.onAddNewContactClicked();
     }
 
     @Override
@@ -52,7 +85,6 @@ public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAd
         if (pasteData != null) {
             getView().updateReceiverAddress(pasteData);
         }
-
     }
 
     @Override
@@ -63,8 +95,18 @@ public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAd
     }
 
     @Override
+    public void onResume() {
+        sendKinPresenter.loadContacts();
+    }
+
+    @Override
     public void onBackClicked() {
         sendKinPresenter.onPrevious();
     }
 
+    @VisibleForTesting
+    @Override
+    public void deleteAll() {
+        sendKinPresenter.deleteAllContacts();
+    }
 }

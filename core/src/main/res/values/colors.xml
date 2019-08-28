@@ -21,6 +21,7 @@
 
     <color name="sendkin_grey_dark">#8f8f8f</color>
     <color name="sendkin_grey">#a6a6a6</color>
+    <color name="sendkin_delimiter_grey">#ebebeb</color>
 
     <color name="sendkin_darker_text">#1f1f1f</color>
     <color name="sendkin_dark_text">#363636</color>
