@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
 import kin.sendkin.core.model.RecipientContact;
 
 import kin.sendkin.R;
@@ -20,6 +21,7 @@ public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientCont
 
     public interface RecipientContactTouchListener {
         void onEditContact(@NonNull UUID id);
+
         void onContactClicked(@NonNull UUID id);
     }
 
@@ -42,8 +44,22 @@ public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientCont
     }
 
     @Override
-    public void onBindViewHolder(RecipientContactView holder, int position) {
+    public void onBindViewHolder(RecipientContactView holder, final int position) {
         final RecipientContact recipientContact = contacts.get(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final RecipientContact recipientContact = contacts.get(position);
+                recipientContactTouchListener.onContactClicked(recipientContact.getId());
+            }
+        });
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final RecipientContact recipientContact = contacts.get(position);
+                recipientContactTouchListener.onEditContact(recipientContact.getId());
+            }
+        });
         holder.bind(recipientContact);
     }
 
@@ -54,27 +70,13 @@ public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientCont
 
     public static class RecipientContactView extends RecyclerView.ViewHolder {
         private TextView name, address;
-        private View edit;
+        public View edit;
 
         public RecipientContactView(@NonNull View view, @NonNull final ArrayList<RecipientContact> contacts, @NonNull final RecipientContactTouchListener recipientContactTouchListener) {
             super(view);
             name = view.findViewById(R.id.name);
             address = view.findViewById(R.id.address);
             edit = view.findViewById(R.id.edit);
-            edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final RecipientContact recipientContact = contacts.get(getAdapterPosition());
-                    recipientContactTouchListener.onEditContact(recipientContact.getId());
-                }
-            });
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final RecipientContact recipientContact = contacts.get(getAdapterPosition());
-                    recipientContactTouchListener.onContactClicked(recipientContact.getId());
-                }
-            });
         }
 
         void bind(RecipientContact contact) {

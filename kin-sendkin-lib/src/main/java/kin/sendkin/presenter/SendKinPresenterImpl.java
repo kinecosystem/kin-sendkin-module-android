@@ -110,6 +110,9 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
         if (navigator.shouldStartTransfer()) {
             startTransaction();
         }
+        if (navigator.shouldResetData()) {
+            reset();
+        }
     }
 
     @Override
