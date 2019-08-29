@@ -15,6 +15,7 @@ import kin.sendkin.events.SendKinPages;
 import kin.sdk.Environment;
 import kin.sdk.KinAccount;
 import kin.sdk.KinClient;
+import kin.sendkin.exceptions.KinSendInitException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startSendKinFlow() {
-        kinSenderManager.startSendingContactFlow(this);
+        try {
+            kinSenderManager.startSendingContactFlow(this);
+        } catch (KinSendInitException e) {
+            Log.d(TAG, e.getMessage());
+        }
     }
 }
