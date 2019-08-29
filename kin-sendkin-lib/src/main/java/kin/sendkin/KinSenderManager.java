@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import kin.sendkin.events.EventsManager;
 import kin.sendkin.events.SendKinEventsListener;
+import kin.sendkin.exceptions.KinSendInitException;
 import kin.sendkin.view.SendKinActivity;
 
 import kin.sdk.KinAccount;
@@ -30,7 +31,10 @@ public class KinSenderManager {
         }
     }
 
-    public void startSendingContactFlow(Context context) {
+    public void startSendingContactFlow(Context context) throws KinSendInitException {
+        if (kinAccount == null || kinClient == null) {
+            throw new KinSendInitException();
+        }
         context.startActivity(SendKinActivity.getIntent(context, kinClient, kinAccount.getPublicAddress()));
     }
 
