@@ -72,13 +72,13 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
             }
         });
 
-        //TODO REMOVE FOR TESTING ONLY!!!
-        root.findViewById(R.id.addressBookTitle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.deleteAll();
-            }
-        });
+        //for debug only
+//        root.findViewById(R.id.addressBookTitle).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                presenter.deleteAll();
+//            }
+//        });
 
         inputRecipientAddress = root.findViewById(R.id.recipientAddress);
         contactsList = root.findViewById(R.id.contactsList);

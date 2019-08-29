@@ -8,6 +8,7 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public class Navigator {
+
     @Retention(SOURCE)
     @IntDef({STEP_INVALID, STEP_RECIPIENT_ADDRESS, STEP_AMOUNT, STEP_CONFIRM, STEP_START_TRANSFER, STEP_TRANSFER_COMPLETE, STEP_TRANSFER_FAILED, STEP_TRANSFER_TIMEOUT})
     public @interface SendKinSteps {
@@ -50,9 +51,20 @@ public class Navigator {
         return this.step == STEP_START_TRANSFER;
     }
 
+    public boolean shouldResetData() {
+        return this.step == STEP_INVALID ||
+                this.step == STEP_TRANSFER_FAILED ||
+                this.step == STEP_TRANSFER_TIMEOUT ||
+                this.step == STEP_TRANSFER_COMPLETE;
+    }
+
+
     private void updateNextStep() {
         switch (step) {
             case STEP_INVALID:
+            case STEP_TRANSFER_FAILED:
+            case STEP_TRANSFER_TIMEOUT:
+            case STEP_TRANSFER_COMPLETE:
                 step = STEP_RECIPIENT_ADDRESS;
                 break;
             case STEP_AMOUNT:
@@ -63,11 +75,6 @@ public class Navigator {
                 break;
             case STEP_RECIPIENT_ADDRESS:
                 step = STEP_AMOUNT;
-                break;
-            case STEP_TRANSFER_FAILED:
-            case STEP_TRANSFER_TIMEOUT:
-            case STEP_TRANSFER_COMPLETE:
-                step = STEP_RECIPIENT_ADDRESS;
                 break;
         }
     }
