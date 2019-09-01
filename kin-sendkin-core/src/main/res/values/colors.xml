@@ -26,4 +26,6 @@
     <color name="sendkin_darker_text">#1f1f1f</color>
     <color name="sendkin_dark_text">#363636</color>
 
+    <color name="sendkin_transparent">#00000000</color>
+
 </resources>

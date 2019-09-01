@@ -9,9 +9,9 @@ public interface RecipientAddressView extends BaseView {
 
     void notifyContactChanged();
 
+    void notifyContactAdded(int position);
+
     void updateListVisibility(boolean isEmptyList);
 
     void showContactsLoader();
-
-    void scrollToPosition(int position, boolean animate);
 }

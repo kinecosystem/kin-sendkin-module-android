@@ -3,8 +3,6 @@ package kin.sendkin.view;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
@@ -18,15 +16,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import kin.sendkin.R;
+import kin.sendkin.core.view.SendKinEditText;
 import kin.sendkin.presenter.RecipientAddressPresenter;
 import kin.sendkin.presenter.RecipientAddressPresenterImpl;
 import kin.sendkin.presenter.SendKinPresenter;
-import kin.sendkin.core.view.SendKinEditText;
 
 public class RecipientAddressFragment extends Fragment implements RecipientAddressView {
 
     public static final String TAG = RecipientAddressFragment.class.getSimpleName();
 
+    private static final long ANIM_DELAY = 200l;
     private SendKinEditText inputRecipientAddress;
     private TextView errorInfo;
     private RecyclerView contactsList;
@@ -34,6 +33,7 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
     private RecipientContactsAdapter listAdapter;
     private Group listGroupView, emptyListGroupView;
     private View loader;
+    private LinearLayoutManager listLayoutManager;
 
     public static RecipientAddressFragment getInstance() {
         RecipientAddressFragment fragment = new RecipientAddressFragment();
@@ -72,19 +72,11 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
             }
         });
 
-        //for debug only
-//        root.findViewById(R.id.addressBookTitle).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                presenter.deleteAll();
-//            }
-//        });
-
         inputRecipientAddress = root.findViewById(R.id.recipientAddress);
         contactsList = root.findViewById(R.id.contactsList);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setSmoothScrollbarEnabled(true);
-        contactsList.setLayoutManager(linearLayoutManager);
+        listLayoutManager = new LinearLayoutManager(getContext());
+        listLayoutManager.setSmoothScrollbarEnabled(true);
+        contactsList.setLayoutManager(listLayoutManager);
         listAdapter = new RecipientContactsAdapter(sendKinPresenter.getRecipientContactsRepo(), sendKinPresenter);
         contactsList.setAdapter(listAdapter);
         listGroupView = root.findViewById(R.id.groupListContacts);
@@ -140,14 +132,6 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
     }
 
     @Override
-    public void scrollToPosition(int position, boolean animateItem) {
-        contactsList.smoothScrollToPosition(position);
-        if (animateItem) {
-            //TODO animate
-        }
-    }
-
-    @Override
     public void showAddressValidity(boolean isValid, boolean showDetail) {
         if (isValid) {
             inputRecipientAddress.clearError();
@@ -171,6 +155,12 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
     }
 
     @Override
+    public void notifyContactAdded(final int position) {
+        listAdapter.refreshData();
+        scrollAndAnimate(position, ANIM_DELAY);
+    }
+
+    @Override
     public void updateListVisibility(final boolean isEmptyList) {
         if (!isEmptyList) {
             loader.setVisibility(View.GONE);
@@ -186,5 +176,22 @@ public class RecipientAddressFragment extends Fragment implements RecipientAddre
     @Override
     public void showContactsLoader() {
         loader.setVisibility(View.VISIBLE);
+    }
+
+    private void scrollAndAnimate(final int position, final long delay) {
+        contactsList.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listLayoutManager.scrollToPosition(position);
+                RecyclerView.ViewHolder viewHolder = contactsList.findViewHolderForAdapterPosition(position);
+                if (viewHolder != null) {
+                    RecipientContactItem item = (RecipientContactItem) viewHolder;
+                    listLayoutManager.scrollToPosition(position);
+                    item.animateAdded();
+                } else {
+                    scrollAndAnimate(position, delay + 50);
+                }
+            }
+        }, delay);
     }
 }
