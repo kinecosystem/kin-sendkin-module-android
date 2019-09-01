@@ -27,8 +27,7 @@ public class SendKinEditText extends android.support.v7.widget.AppCompatEditText
         if (hasError) {
             setBackground(getResources().getDrawable(R.drawable.senkin_edittext_error));
         } else {
-            setBackground(getResources().getDrawable(R.drawable.senkin_edittext));
-
+            setBackground(getResources().getDrawable(R.drawable.sendkin_edittext_state_list));
         }
     }
 }
