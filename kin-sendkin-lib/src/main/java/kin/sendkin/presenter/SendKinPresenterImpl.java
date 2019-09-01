@@ -35,11 +35,13 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
     private RecipientContactsRepo contactsRepo;
     private RecipientContact contactChosen;
     private RecipientAddressListener addressListener;
+    private EventsManager eventsManager;
 
-    public SendKinPresenterImpl(@NonNull KinManager kinManager, RecipientContactsRepo contactsRepo, Navigator navigator) {
+    public SendKinPresenterImpl(@NonNull KinManager kinManager, RecipientContactsRepo contactsRepo, Navigator navigator, EventsManager eventsManager) {
         this.kinManager = kinManager;
         this.navigator = navigator;
         this.contactsRepo = contactsRepo;
+        this.eventsManager = eventsManager;
     }
 
     @Override
@@ -164,19 +166,19 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
             public void onSendKinCompleted(String transactionId, String receiverAddress, int amount) {
                 navigator.updateStep(Navigator.STEP_TRANSFER_COMPLETE);
                 requestBalance();
-                EventsManager.getInstance().onTransferSuccess(transactionId);
+                eventsManager.onTransferSuccess(transactionId);
             }
 
             @Override
             public void onSendKinFailed(String error, String receiverAddress, int amount) {
                 navigator.updateStep(Navigator.STEP_TRANSFER_FAILED);
-                EventsManager.getInstance().onTransferFailed();
+                eventsManager.onTransferFailed();
             }
 
             @Override
             public void onSendKinTimeout(String error, String receiverAddress, int amount) {
                 navigator.updateStep(Navigator.STEP_TRANSFER_TIMEOUT);
-                EventsManager.getInstance().onTransactionTimeout();
+                eventsManager.onTransactionTimeout();
             }
         });
     }
@@ -252,7 +254,7 @@ public class SendKinPresenterImpl extends BasePresenterImpl<SendKinView> impleme
     }
 
     private void onViewPageEvent(@NonNull SendKinPages page) {
-        EventsManager.getInstance().onViewPage(page);
+        eventsManager.onViewPage(page);
     }
 
     @VisibleForTesting

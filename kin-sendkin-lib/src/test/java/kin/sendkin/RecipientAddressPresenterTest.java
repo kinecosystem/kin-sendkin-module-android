@@ -2,6 +2,9 @@ package kin.sendkin;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import kin.sendkin.core.store.ContactsListener;
+import kin.sendkin.presenter.RecipientAddressListener;
 import kin.sendkin.presenter.RecipientAddressPresenter;
 import kin.sendkin.presenter.RecipientAddressPresenterImpl;
 import kin.sendkin.presenter.SendKinPresenter;
@@ -19,12 +22,16 @@ public class RecipientAddressPresenterTest {
     final String emptyAddress = "";
 
     RecipientAddressPresenter presenter;
+    ContactsListener contactsListener;
+    RecipientAddressListener recipientAddressListener;
 
     @Before
     public void initMocks() {
         sendKinPresenter = mock(SendKinPresenter.class);
         mockView = mock(RecipientAddressView.class);
         presenter = new RecipientAddressPresenterImpl(sendKinPresenter, null);
+        contactsListener = (ContactsListener) presenter;
+        recipientAddressListener = (RecipientAddressListener) presenter;
         presenter.onAttach(mockView);
         presenter.onResume();
     }
@@ -33,13 +40,13 @@ public class RecipientAddressPresenterTest {
     public void onNextClickedTest() {
         presenter.setRecipientAddress(emptyAddress);
         presenter.onNextClicked();
-        verify(mockView, times(1)).showAddressValidity(false, false);
+        verify(mockView).showAddressValidity(false, false);
         presenter.setRecipientAddress(nonValidAddress);
         presenter.onNextClicked();
-        verify(mockView, times(1)).showAddressValidity(false, true);
+        verify(mockView).showAddressValidity(false, true);
         presenter.setRecipientAddress(validAddress);
         presenter.onNextClicked();
-        verify(sendKinPresenter, times(1)).onNext();
+        verify(sendKinPresenter).onNext();
     }
 
     @Test
@@ -62,7 +69,7 @@ public class RecipientAddressPresenterTest {
     }
 
     @Test
-    public void setRecipientAddress() {
+    public void setRecipientAddressTest() {
         presenter.setRecipientAddress(validAddress);
         verify(mockView).showAddressValidity(true, false);
         verify(sendKinPresenter).setRecipientAddress(validAddress);
@@ -74,8 +81,52 @@ public class RecipientAddressPresenterTest {
     }
 
     @Test
-    public void onBackClicked() {
+    public void onBackClickedTest() {
         presenter.onBackClicked();
         verify(sendKinPresenter).onPrevious();
+    }
+
+    @Test
+    public void onRecipientAddressChanged() {
+        recipientAddressListener.onRecipientAddressChanged(validAddress);
+        verify(mockView).updateReceiverAddress(validAddress);
+    }
+
+    @Test
+    public void onContactChangedFullListTest() {
+        contactsListener.onContactChanged(false);
+        verify(mockView).notifyContactChanged();
+        verify(mockView).updateListVisibility(false);
+    }
+
+    @Test
+    public void onContactChangedEmptyListTest() {
+        contactsListener.onContactChanged(true);
+        verify(mockView).notifyContactChanged();
+        verify(mockView).updateListVisibility(true);
+    }
+
+    @Test
+    public void onContactAddedTest() {
+        int position = 5;
+        contactsListener.onContactAdded(position);
+        verify(mockView).notifyContactChanged();
+        verify(mockView).updateListVisibility(false);
+        verify(mockView).scrollToPosition(position, true);
+    }
+
+    @Test
+    public void onContactsLoadedTest() {
+        contactsListener.onContactsLoaded(false);
+        verify(mockView).updateListVisibility(false);
+
+        contactsListener.onContactsLoaded(true);
+        verify(mockView).updateListVisibility(true);
+    }
+
+    @Test
+    public void onContactsLoadingTest() {
+        contactsListener.onContactsLoading();
+        verify(mockView).showContactsLoader();
     }
 }

@@ -51,11 +51,10 @@ public class EditContactDialogPresenterTest {
         verify(mockView).setEditLayout(contact.getName(), contact.getAddress());
     }
 
+
     @Test
     public void onSaveClickedTest() {
         presenter.onSaveClicked(name, address);
-        verify(sendKinPresenter).setContactName(name);
-        verify(sendKinPresenter).setRecipientAddress(address);
         verify(sendKinPresenter).updateContact(contact.getId(), name, address);
         verify(mockView).dismiss();
     }

@@ -3,6 +3,7 @@ package kin.sendkin.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.service.autofill.FillEventHistory;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import kin.sendkin.R;
+import kin.sendkin.events.EventsManager;
 import kin.sendkin.presenter.SendKinPresenter;
 import kin.sendkin.presenter.SendKinPresenterImpl;
 import kin.sendkin.core.model.KinAccountUtils;
@@ -42,7 +44,7 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
         setContentView(getContentLayout());
         final KinAccount kinAccount = KinAccountUtils.loadAccountClientData(this, getIntent());
         if (kinAccount != null) {
-            presenter = new SendKinPresenterImpl(new KinManagerImpl(kinAccount), new RecipientContactsRepoImpl(this), new Navigator(this));
+            presenter = new SendKinPresenterImpl(new KinManagerImpl(kinAccount), new RecipientContactsRepoImpl(this), new Navigator(this), EventsManager.getInstance());
             initViews();
             presenter.onAttach(this);
         }
