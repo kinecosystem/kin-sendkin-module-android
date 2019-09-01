@@ -78,4 +78,18 @@ public class SendAmountPresenterTest {
         verify(mockView, times(1)).showAmountValidity(false, true);
     }
 
+
+    @Test
+    public void setAmount() {
+        presenter.setAmount("99999999999999999999999999");
+        verify(mockView, times(1)).showAmountValidity(true, false);
+        presenter.onSendClicked();
+        verify(mockView, times(1)).showAmountValidity(false, true);
+    }
+
+    @Test
+    public void onBackClickedTest() {
+        presenter.onBackClicked();
+        verify(sendKinPresenter).onPrevious();
+    }
 }

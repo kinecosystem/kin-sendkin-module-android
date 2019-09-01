@@ -8,8 +8,11 @@ import kin.sendkin.presenter.SendKinPresenter;
 import kin.sendkin.view.ContactDialogView;
 import kin.sendkin.core.model.RecipientContact;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class NewContactDialogPresenterTest {
@@ -45,6 +48,19 @@ public class NewContactDialogPresenterTest {
     }
 
     @Test
+    public void onDeleteClickedTest() {
+        presenter.onDeleteClicked();
+        verify(mockView, never()).setConfirmDeleteLayout(contact.getName());
+    }
+
+    @Test
+    public void onConfirmDeleteClickedTest() {
+        presenter.onConfirmDeleteClicked();
+        verify(sendKinPresenter, never()).removeRecipientContact(contact.getId());
+        verify(mockView, never()).dismiss();
+    }
+
+    @Test
     public void onResumeTest() {
         verify(mockView).setNewLayout();
     }
@@ -60,6 +76,28 @@ public class NewContactDialogPresenterTest {
     public void onSaveClickedInputNotValidTest() {
         presenter.onSaveClicked(namNotValid, addressNoValid);
         verify(mockView).showAddressValidity(false, true);
+        verify(mockView).showNameValidity(false);
+    }
+
+    @Test
+    public void onSaveClickedAddressNotValidTest() {
+        presenter.onSaveClicked(name, addressNoValid);
+        verify(mockView).showAddressValidity(false, true);
+        verify(mockView, never()).showNameValidity(false);
+    }
+
+    @Test
+    public void onSaveClickedAddressEmptyTest() {
+        presenter.onSaveClicked(name, "");
+        verify(mockView).showAddressValidity(false, false);
+        verify(mockView, never()).showNameValidity(false);
+    }
+
+    @Test
+    public void onSaveClickedNameNotValidTest() {
+        presenter.onSaveClicked(namNotValid, address);
+        verify(mockView, never()).showAddressValidity(false, true);
+        verify(mockView, never()).showAddressValidity(false, false);
         verify(mockView).showNameValidity(false);
     }
 }

@@ -31,8 +31,8 @@ public class KinSenderManager {
         }
     }
 
-    public void startSendingContactFlow(Context context) throws KinSendInitException {
-        if (kinAccount == null || kinClient == null) {
+    public void startSendingContactFlow(@NonNull Context context) throws KinSendInitException {
+        if (kinAccount == null || kinClient == null || context == null) {
             throw new KinSendInitException();
         }
         context.startActivity(SendKinActivity.getIntent(context, kinClient, kinAccount.getPublicAddress()));

@@ -62,8 +62,6 @@ public class ContactDialogPresenterImpl extends BasePresenterImpl<ContactDialogV
         final boolean isValidAddress = validateAddress(address);
         final boolean isValidName = validateName(name);
         if (isValidAddress && isValidName) {
-            sendKinPresenter.setContactName(name);
-            sendKinPresenter.setRecipientAddress(address);
             if (contactId != null) {
                 sendKinPresenter.updateContact(contactId, name, address);
             } else {

@@ -4,15 +4,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import kin.sendkin.view.RecipientContactsAdapter;
-import kin.sendkin.view.SendKinView;
+import java.util.ArrayList;
+import java.util.UUID;
+
 import kin.sendkin.core.base.BasePresenter;
 import kin.sendkin.core.model.RecipientContact;
 import kin.sendkin.core.store.ContactsListener;
 import kin.sendkin.core.store.RecipientContactsRepo;
-
-import java.util.ArrayList;
-import java.util.UUID;
+import kin.sendkin.view.RecipientContactsAdapter;
+import kin.sendkin.view.SendKinView;
 
 public interface SendKinPresenter extends BasePresenter<SendKinView>, RecipientContactsAdapter.RecipientContactTouchListener {
     void onResume();
