@@ -58,6 +58,9 @@ public class Navigator {
                 this.step == STEP_TRANSFER_COMPLETE;
     }
 
+    public @SendKinSteps int getStep(){
+        return step;
+    }
 
     private void updateNextStep() {
         switch (step) {
@@ -135,10 +138,5 @@ public class Navigator {
     @VisibleForTesting
     public boolean isStep(@SendKinSteps int step) {
         return this.step == step;
-    }
-
-    @VisibleForTesting
-    public void setStep(@SendKinSteps int step) {
-        this.step = step;
     }
 }

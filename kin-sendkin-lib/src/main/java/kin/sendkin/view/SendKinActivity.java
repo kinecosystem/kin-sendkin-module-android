@@ -10,21 +10,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import kin.sendkin.R;
-import kin.sendkin.presenter.SendKinPresenter;
-import kin.sendkin.presenter.SendKinPresenterImpl;
-import kin.sendkin.core.model.KinAccountUtils;
-import kin.sendkin.core.model.KinManagerImpl;
-import kin.sendkin.core.store.RecipientContactsRepoImpl;
-
 import java.util.UUID;
 
 import kin.sdk.KinAccount;
 import kin.sdk.KinClient;
+import kin.sendkin.R;
+import kin.sendkin.core.model.KinAccountUtils;
+import kin.sendkin.core.model.KinManagerImpl;
+import kin.sendkin.core.store.RecipientContactsRepoImpl;
+import kin.sendkin.presenter.SendKinPresenter;
+import kin.sendkin.presenter.SendKinPresenterImpl;
 
 public class SendKinActivity extends AppCompatActivity implements SendKinView {
+    private static final String KEY_ADDRESS = "KEY_ADDRESS";
+    private static final String KEY_AMOUT = "KEY_AMOUT";
+    private static final String KEY_STEP = "KEY_STEP";
+
     private SendKinPresenterImpl presenter;
     private KinBalanceActionBar actionBar;
+    private Navigator navigator;
 
     public static Intent getIntent(@NonNull Context context, @NonNull KinClient kinClient, @NonNull String publicAddress) {
         Intent intent = new Intent(context, SendKinActivity.class);
@@ -42,10 +46,27 @@ public class SendKinActivity extends AppCompatActivity implements SendKinView {
         setContentView(getContentLayout());
         final KinAccount kinAccount = KinAccountUtils.loadAccountClientData(this, getIntent());
         if (kinAccount != null) {
-            presenter = new SendKinPresenterImpl(new KinManagerImpl(kinAccount), new RecipientContactsRepoImpl(this), new Navigator(this));
+            navigator = new Navigator(this);
+            presenter = new SendKinPresenterImpl(new KinManagerImpl(kinAccount), new RecipientContactsRepoImpl(this), navigator);
             initViews();
             presenter.onAttach(this);
         }
+        if (savedInstanceState != null) {
+            int step = savedInstanceState.getInt(KEY_STEP, 0);
+            int amount = savedInstanceState.getInt(KEY_AMOUT, 0);
+            String address = savedInstanceState.getString(KEY_ADDRESS, "");
+            presenter.setAmount(amount);
+            presenter.setRecipientAddress(address);
+            navigator.updateStep(step);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_STEP, navigator.getStep());
+        outState.putInt(KEY_AMOUT, presenter.getAmount());
+        outState.putString(KEY_ADDRESS, presenter.getRecipientAddress());
     }
 
     @NonNull

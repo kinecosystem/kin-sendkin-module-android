@@ -40,7 +40,7 @@ public class NavigatorTest {
 
     @Test
     public void onPreviousTest(){
-        navigator.setStep(Navigator.STEP_CONFIRM);
+        navigator.updateStep(Navigator.STEP_CONFIRM);
         navigator.onPrevious();
         assertTrue(navigator.isStep(Navigator.STEP_AMOUNT));
         verify(mockView).showAmountPage();
@@ -56,7 +56,7 @@ public class NavigatorTest {
 
     @Test
     public void shouldStartTransferTest(){
-        navigator.setStep(Navigator.STEP_START_TRANSFER);
+        navigator.updateStep(Navigator.STEP_START_TRANSFER);
         assertTrue(navigator.shouldStartTransfer());
     }
 }
