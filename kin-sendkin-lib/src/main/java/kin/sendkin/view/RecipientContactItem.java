@@ -11,10 +11,14 @@ import kin.sendkin.core.model.RecipientContact;
 import kin.sendkin.core.view.Utils;
 
 class RecipientContactItem extends RecyclerView.ViewHolder {
+    private final long ANIM_ADD_DURATION = 1500L;
+    private final long ANIM_ADD_DELAY = 200L;
+
+
     private TextView name, address;
     private View cover;
-    View edit;
-    float coverLen;
+    protected View edit;
+    private float coverLen;
 
     RecipientContactItem(@NonNull View view) {
         super(view);
@@ -36,6 +40,6 @@ class RecipientContactItem extends RecyclerView.ViewHolder {
         cover.clearAnimation();
         cover.setX(-coverLen);
         cover.setVisibility(View.VISIBLE);
-        cover.animate().translationXBy(coverLen * 2).setDuration(1500).setStartDelay(200).setInterpolator(new AccelerateDecelerateInterpolator());
+        cover.animate().translationXBy(coverLen * 2).setDuration(ANIM_ADD_DURATION).setStartDelay(ANIM_ADD_DELAY).setInterpolator(new AccelerateDecelerateInterpolator());
     }
 }

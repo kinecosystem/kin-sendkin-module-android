@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<In
     private static String TAG = MainActivity.class.getName();
 
     private static String APP_ID = "SND";
+    private static boolean initComplete = false;
 
     private KinSenderManager kinSenderManager;
     private OnBoarding onBoarding;
@@ -35,16 +36,11 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<In
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sendKinLauncherBtn = findViewById(R.id.sendKinBtn);
-        sendKinLauncherBtn.setEnabled(false);
+        sendKinLauncherBtn.setEnabled(initComplete);
         kinClient = new KinClient(this, Environment.TEST, APP_ID, "");
 
         onBoarding = new OnBoarding();
-        sendKinLauncherBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startSendKinFlow();
-            }
-        });
+        sendKinLauncherBtn.setOnClickListener(view -> startSendKinFlow());
         if(initAccount()){
             checkAccountStatus();
         }
@@ -75,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements ResultCallback<In
             }
         });
         sendKinLauncherBtn.setEnabled(true);
+        initComplete = true;
     }
 
     private void startSendKinFlow() {
