@@ -2,15 +2,17 @@ package kin.sendkin.core.view;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import kin.sendkin.core.model.RecipientContact;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import kin.sendkin.core.model.RecipientContact;
 
 public class Utils {
 
@@ -50,5 +52,10 @@ public class Utils {
             return "XXX-" + publicAddress.substring(publicAddress.length() - SHORT_ADDRESS_DIGITS_LEN);
         }
         return publicAddress;
+    }
+
+    public static int getScreenWidth(Context context){
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return metrics.widthPixels;
     }
 }

@@ -5,19 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-import kin.sendkin.core.model.RecipientContact;
-
 import kin.sendkin.R;
+import kin.sendkin.core.model.RecipientContact;
 import kin.sendkin.core.store.RecipientContactsRepo;
-import kin.sendkin.core.view.Utils;
 
-public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientContactsAdapter.RecipientContactView> {
+public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientContactItem> {
 
     public interface RecipientContactTouchListener {
         void onEditContact(@NonNull UUID id);
@@ -36,15 +32,15 @@ public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientCont
     }
 
     @Override
-    public RecipientContactView onCreateViewHolder(ViewGroup parent,
+    public RecipientContactItem onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.contact_item, parent, false);
-        return new RecipientContactView(view, contacts, recipientContactTouchListener);
+        return new RecipientContactItem(view);
     }
 
     @Override
-    public void onBindViewHolder(RecipientContactView holder, final int position) {
+    public void onBindViewHolder(RecipientContactItem holder, final int position) {
         final RecipientContact recipientContact = contacts.get(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,23 +62,6 @@ public class RecipientContactsAdapter extends RecyclerView.Adapter<RecipientCont
     @Override
     public int getItemCount() {
         return contacts.size();
-    }
-
-    public static class RecipientContactView extends RecyclerView.ViewHolder {
-        private TextView name, address;
-        public View edit;
-
-        public RecipientContactView(@NonNull View view, @NonNull final ArrayList<RecipientContact> contacts, @NonNull final RecipientContactTouchListener recipientContactTouchListener) {
-            super(view);
-            name = view.findViewById(R.id.name);
-            address = view.findViewById(R.id.address);
-            edit = view.findViewById(R.id.edit);
-        }
-
-        void bind(RecipientContact contact) {
-            this.name.setText(contact.getName());
-            this.address.setText(Utils.getAddressShortenFormat(contact.getAddress()));
-        }
     }
 
     void refreshData() {
