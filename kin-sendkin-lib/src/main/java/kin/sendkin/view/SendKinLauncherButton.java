@@ -22,7 +22,7 @@ public class SendKinLauncherButton extends AppCompatButton {
         setAllCaps(false);
         setText(R.string.send_kin);
         setTextColor(getResources().getColor(R.color.sendkin_white));
-        setBackgroundDrawable(getResources().getDrawable(R.drawable.senkin_btn_rounded_purple));
+        setBackgroundDrawable(getResources().getDrawable(R.drawable.sendkin_btn_purple_state_list));
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
     }
 }
