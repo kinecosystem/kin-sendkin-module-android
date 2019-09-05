@@ -16,19 +16,18 @@ public class EditContactDialogPresenterTest {
     SendKinPresenter sendKinPresenter;
     ContactDialogView mockView;
 
-    private final String address = "GCCLBNMWRUKPCWV4J6H42KAQQ6GSOG6YKRNONAT3QDOGRH3T3EQGSXJR";
-    private final String name = "James Bond";
+    private final String ADDRESS = "GCCLBNMWRUKPCWV4J6H42KAQQ6GSOG6YKRNONAT3QDOGRH3T3EQGSXJR";
+    private final String NAME = "James Bond";
 
-    private final String addressNoValid = "GCCLBNMWRUKPaWV4J6H42KAQQ6GSOG6YKRNONAT3QDOGRH3T3EQGSXJR";
-    private final String namNotValid = "";
+    private final String ADDRESS_NOT_VALID = "GCCLBNMWRUKPaWV4J6H42KAQQ6GSOG6YKRNONAT3QDOGRH3T3EQGSXJR";
+    private final String NAME_NOT_VALID = "";
 
     private RecipientContact contact;
-
     private ContactDialogPresenter presenter;
 
     @Before
     public void initMocks() {
-        contact = new RecipientContact(name, address);
+        contact = new RecipientContact(NAME, ADDRESS);
         sendKinPresenter = mock(SendKinPresenter.class);
         when(sendKinPresenter.getContact(contact.getId())).thenReturn(contact);
         mockView = mock(ContactDialogView.class);
@@ -45,7 +44,6 @@ public class EditContactDialogPresenterTest {
         verify(mockView).dismiss();
     }
 
-
     @Test
     public void onResumeTest() {
         verify(mockView).setEditLayout(contact.getName(), contact.getAddress());
@@ -53,17 +51,14 @@ public class EditContactDialogPresenterTest {
 
     @Test
     public void onSaveClickedTest() {
-        presenter.onSaveClicked(name, address);
-        verify(sendKinPresenter).setContactName(name);
-        verify(sendKinPresenter).setRecipientAddress(address);
-        verify(sendKinPresenter).updateContact(contact.getId(), name, address);
+        presenter.onSaveClicked(NAME, ADDRESS);
+        verify(sendKinPresenter).updateContact(contact.getId(), NAME, ADDRESS);
         verify(mockView).dismiss();
     }
 
-
     @Test
     public void onSaveClickedInputNotValidTest() {
-        presenter.onSaveClicked(namNotValid, addressNoValid);
+        presenter.onSaveClicked(NAME_NOT_VALID, ADDRESS_NOT_VALID);
         verify(mockView).showAddressValidity(false, true);
         verify(mockView).showNameValidity(false);
     }

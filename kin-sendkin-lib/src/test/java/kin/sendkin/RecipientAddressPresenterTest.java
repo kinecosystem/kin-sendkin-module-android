@@ -2,6 +2,9 @@ package kin.sendkin;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import kin.sendkin.core.store.ContactsListener;
+import kin.sendkin.presenter.RecipientAddressListener;
 import kin.sendkin.presenter.RecipientAddressPresenter;
 import kin.sendkin.presenter.RecipientAddressPresenterImpl;
 import kin.sendkin.presenter.SendKinPresenter;
@@ -14,32 +17,36 @@ import static org.mockito.Mockito.verify;
 public class RecipientAddressPresenterTest {
     SendKinPresenter sendKinPresenter;
     RecipientAddressView mockView;
-    final String validAddress = "GBNY5GQ6WOG5JU4JZEPJ4WZIMYMC5HGPYLSXT7S3GBDJ2S3CM4NPTBNC";
-    final String nonValidAddress = "AGBNY5GQ6WOG5JU4JZEP";
-    final String emptyAddress = "";
+    final String ADDRESS = "GBNY5GQ6WOG5JU4JZEPJ4WZIMYMC5HGPYLSXT7S3GBDJ2S3CM4NPTBNC";
+    final String ADDRESS_NOT_VALID = "AGBNY5GQ6WOG5JU4JZEP";
+    final String ADDRESS_EMPTY = "";
 
     RecipientAddressPresenter presenter;
+    ContactsListener contactsListener;
+    RecipientAddressListener recipientAddressListener;
 
     @Before
     public void initMocks() {
         sendKinPresenter = mock(SendKinPresenter.class);
         mockView = mock(RecipientAddressView.class);
         presenter = new RecipientAddressPresenterImpl(sendKinPresenter, null);
+        contactsListener = (ContactsListener) presenter;
+        recipientAddressListener = (RecipientAddressListener) presenter;
         presenter.onAttach(mockView);
         presenter.onResume();
     }
 
     @Test
     public void onNextClickedTest() {
-        presenter.setRecipientAddress(emptyAddress);
+        presenter.setRecipientAddress(ADDRESS_EMPTY);
         presenter.onNextClicked();
-        verify(mockView, times(1)).showAddressValidity(false, false);
-        presenter.setRecipientAddress(nonValidAddress);
+        verify(mockView).showAddressValidity(false, false);
+        presenter.setRecipientAddress(ADDRESS_NOT_VALID);
         presenter.onNextClicked();
-        verify(mockView, times(1)).showAddressValidity(false, true);
-        presenter.setRecipientAddress(validAddress);
+        verify(mockView).showAddressValidity(false, true);
+        presenter.setRecipientAddress(ADDRESS);
         presenter.onNextClicked();
-        verify(sendKinPresenter, times(1)).onNext();
+        verify(sendKinPresenter).onNext();
     }
 
     @Test
@@ -62,10 +69,10 @@ public class RecipientAddressPresenterTest {
     }
 
     @Test
-    public void setRecipientAddress() {
-        presenter.setRecipientAddress(validAddress);
+    public void setRecipientAddressTest() {
+        presenter.setRecipientAddress(ADDRESS);
         verify(mockView).showAddressValidity(true, false);
-        verify(sendKinPresenter).setRecipientAddress(validAddress);
+        verify(sendKinPresenter).setRecipientAddress(ADDRESS);
     }
 
     @Test
@@ -74,8 +81,52 @@ public class RecipientAddressPresenterTest {
     }
 
     @Test
-    public void onBackClicked() {
+    public void onBackClickedTest() {
         presenter.onBackClicked();
         verify(sendKinPresenter).onPrevious();
+    }
+
+    @Test
+    public void onRecipientAddressChanged() {
+        recipientAddressListener.onRecipientAddressChanged(ADDRESS);
+        verify(mockView).updateReceiverAddress(ADDRESS);
+    }
+
+    @Test
+    public void onContactChangedFullListTest() {
+        contactsListener.onContactChanged(false);
+        verify(mockView).notifyContactChanged();
+        verify(mockView).updateListVisibility(false);
+    }
+
+    @Test
+    public void onContactChangedEmptyListTest() {
+        contactsListener.onContactChanged(true);
+        verify(mockView).notifyContactChanged();
+        verify(mockView).updateListVisibility(true);
+    }
+
+    //TODO
+    @Test
+    public void onContactAddedTest() {
+        int position = 5;
+        contactsListener.onContactAdded(position);
+        verify(mockView).notifyContactAdded(position);
+        verify(mockView).updateListVisibility(false);
+    }
+
+    @Test
+    public void onContactsLoadedTest() {
+        contactsListener.onContactsLoaded(false);
+        verify(mockView).updateListVisibility(false);
+
+        contactsListener.onContactsLoaded(true);
+        verify(mockView).updateListVisibility(true);
+    }
+
+    @Test
+    public void onContactsLoadingTest() {
+        contactsListener.onContactsLoading();
+        verify(mockView).showContactsLoader();
     }
 }

@@ -11,7 +11,7 @@ import kin.sendkin.core.store.ContactsListener;
 import kin.sendkin.core.view.Utils;
 
 
-public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAddressView> implements RecipientAddressPresenter {
+public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAddressView> implements RecipientAddressPresenter, ContactsListener, RecipientAddressListener{
     private String recipientAddress = "";
     private final SendKinPresenter sendKinPresenter;
     private ClipboardManager clipboard;
@@ -19,35 +19,35 @@ public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAd
     public RecipientAddressPresenterImpl(@NonNull SendKinPresenter sendKinPresenter, @NonNull ClipboardManager clipboard) {
         this.clipboard = clipboard;
         this.sendKinPresenter = sendKinPresenter;
-        sendKinPresenter.setContactsListener(new ContactsListener() {
-            @Override
-            public void onContactChanged(boolean isEmptyList) {
-                getView().notifyContactChanged();
-                getView().updateListVisibility(isEmptyList);
-            }
+        sendKinPresenter.setContactsListener(this);
+        sendKinPresenter.setRecipientAddressListener(this);
+    }
 
-            @Override
-            public void onContactAdded(int position) {
-                getView().notifyContactAdded(position);
-                getView().updateListVisibility(false);
-            }
+    @Override
+    public void onRecipientAddressChanged(@NonNull String address) {
+        getView().updateReceiverAddress(address);
+    }
 
-            @Override
-            public void onContactsLoaded(boolean isEmptyList) {
-                getView().updateListVisibility(isEmptyList);
-            }
+    @Override
+    public void onContactChanged(boolean isEmptyList) {
+        getView().notifyContactChanged();
+        getView().updateListVisibility(isEmptyList);
+    }
 
-            @Override
-            public void onContactsLoading() {
-                getView().showContactsLoader();
-            }
-        });
-        sendKinPresenter.setRecipientAddressListener(new RecipientAddressListener() {
-            @Override
-            public void onRecipientAddressChanged(@NonNull String address) {
-                getView().updateReceiverAddress(address);
-            }
-        });
+    @Override
+    public void onContactAdded(int position) {
+        getView().notifyContactAdded(position);
+        getView().updateListVisibility(false);
+    }
+
+    @Override
+    public void onContactsLoaded(boolean isEmptyList) {
+        getView().updateListVisibility(isEmptyList);
+    }
+
+    @Override
+    public void onContactsLoading() {
+        getView().showContactsLoader();
     }
 
     @Override

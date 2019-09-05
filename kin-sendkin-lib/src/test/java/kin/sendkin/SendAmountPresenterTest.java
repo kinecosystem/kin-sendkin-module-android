@@ -14,13 +14,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SendAmountPresenterTest {
-    final int amount = 100;
     SendKinPresenter sendKinPresenter;
     SendAmountView mockView;
     SendAmountPresenter presenter;
 
     @Before
     public void initMocks() {
+        final int amount = 100;
         sendKinPresenter = mock(SendKinPresenter.class);
         when(sendKinPresenter.hasEnoughKin(amount)).thenReturn(true);
         mockView = mock(SendAmountView.class);
@@ -43,6 +43,20 @@ public class SendAmountPresenterTest {
         verify(mockView, times(1)).showAmountValidity(true, false);
         presenter.onSendClicked();
         verify(mockView, times(1)).showAmountValidity(false, false);
+    }
+
+    @Test
+    public void setAmount() {
+        presenter.setAmount("99999999999999999999999999");
+        verify(mockView, times(1)).showAmountValidity(true, false);
+        presenter.onSendClicked();
+        verify(mockView, times(1)).showAmountValidity(false, true);
+    }
+
+    @Test
+    public void onBackClickedTest() {
+        presenter.onBackClicked();
+        verify(sendKinPresenter).onPrevious();
     }
 
     @Test
