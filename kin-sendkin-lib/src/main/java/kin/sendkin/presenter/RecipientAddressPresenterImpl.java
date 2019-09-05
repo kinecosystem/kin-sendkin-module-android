@@ -28,9 +28,8 @@ public class RecipientAddressPresenterImpl extends BasePresenterImpl<RecipientAd
 
             @Override
             public void onContactAdded(int position) {
-                getView().notifyContactChanged();
+                getView().notifyContactAdded(position);
                 getView().updateListVisibility(false);
-                getView().scrollToPosition(position, true);
             }
 
             @Override
