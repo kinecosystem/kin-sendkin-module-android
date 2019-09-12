@@ -6,6 +6,7 @@ import kin.sendkin.view.Navigator;
 import kin.sendkin.view.SendKinView;
 import org.mockito.internal.verification.Times;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -58,5 +59,39 @@ public class NavigatorTest {
     public void shouldStartTransferTest(){
         navigator.setStep(Navigator.STEP_START_TRANSFER);
         assertTrue(navigator.shouldStartTransfer());
+        navigator.setStep(Navigator.STEP_INVALID);
+        assertFalse(navigator.shouldStartTransfer());
+        navigator.setStep(Navigator.STEP_TRANSFER_FAILED);
+        assertFalse(navigator.shouldStartTransfer());
+        navigator.setStep(Navigator.STEP_TRANSFER_TIMEOUT);
+        assertFalse(navigator.shouldStartTransfer());
+        navigator.setStep(Navigator.STEP_TRANSFER_COMPLETE);
+        assertFalse(navigator.shouldStartTransfer());
+        navigator.setStep(Navigator.STEP_AMOUNT);
+        assertFalse(navigator.shouldStartTransfer());
+        navigator.setStep(Navigator.STEP_CONFIRM);
+        assertFalse(navigator.shouldStartTransfer());
+        navigator.setStep(Navigator.STEP_RECIPIENT_ADDRESS);
+        assertFalse(navigator.shouldStartTransfer());
+    }
+
+    @Test
+    public void shouldResetData() {
+        navigator.setStep(Navigator.STEP_INVALID);
+        assertTrue(navigator.shouldResetData());
+        navigator.setStep(Navigator.STEP_TRANSFER_FAILED);
+        assertTrue(navigator.shouldResetData());
+        navigator.setStep(Navigator.STEP_TRANSFER_TIMEOUT);
+        assertTrue(navigator.shouldResetData());
+        navigator.setStep(Navigator.STEP_TRANSFER_COMPLETE);
+        assertTrue(navigator.shouldResetData());
+        navigator.setStep(Navigator.STEP_AMOUNT);
+        assertFalse(navigator.shouldResetData());
+        navigator.setStep(Navigator.STEP_CONFIRM);
+        assertFalse(navigator.shouldResetData());
+        navigator.setStep(Navigator.STEP_RECIPIENT_ADDRESS);
+        assertFalse(navigator.shouldResetData());
+        navigator.setStep(Navigator.STEP_START_TRANSFER);
+        assertFalse(navigator.shouldResetData());
     }
 }

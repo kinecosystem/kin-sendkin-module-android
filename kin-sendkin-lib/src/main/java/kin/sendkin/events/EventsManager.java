@@ -1,6 +1,7 @@
 package kin.sendkin.events;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 public class EventsManager {
     private static EventsManager instance = null;
@@ -43,5 +44,11 @@ public class EventsManager {
             listener.onTransactionTimeout();
         }
     }
+
+    @VisibleForTesting
+    public EventsManager(EventsManager eventsManager) {
+        EventsManager.instance = eventsManager;
+    }
+
 
 }
